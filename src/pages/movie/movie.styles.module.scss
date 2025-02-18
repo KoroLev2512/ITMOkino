@@ -1,0 +1,80 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1550px;
+  margin: 0 auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: calc(var(--margin) * 2);
+}
+
+.image {
+  width: 100%;
+  margin-bottom: var(--margin);
+  overflow: hidden;
+  border-radius: 20px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 16/9;
+  }
+}
+
+.leftColumn {
+  margin-left: var(--margin);
+}
+
+.rightCol {
+  display: grid;
+  gap: calc(var(--margin) * 2);
+  align-content: start;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: calc(var(--margin) / 2) var(--margin);
+  align-content: start;
+
+  .infoLabel {
+    color: #9f9f9f;
+    font-weight: 300;
+  }
+}
+
+.subtitle {
+  text-align: center;
+}
+
+.session {
+  margin-top: var(--margin);
+  display: grid;
+  gap: var(--margin);
+}
+
+.sessionTimesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 70px);
+  gap: var(--margin);
+}
+
+.sessionTimeItem {
+  color: #fff;
+  background: #7f8e91;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background: #5f6e71;
+  }
+}
+

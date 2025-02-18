@@ -1,0 +1,17 @@
+.wrapper {
+  max-width: 1550px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 1000;
+  display: flex;
+  font-size: 28px;
+  color: black;
+  margin: 30px 0;
+}
+
+.moveList {
+  margin-top: var(--margin);
+}

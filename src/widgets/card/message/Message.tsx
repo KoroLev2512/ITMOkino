@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "../Card";
+import { MovieCard } from "../MovieCard";
 import styles from "./styles.module.scss";
 
 export type MessageProps = {
@@ -9,5 +9,5 @@ export type MessageProps = {
 };
 
 export const Message = (props: MessageProps) => {
-	return <Card {...props} className={styles.message} />;
+	return <MovieCard {...props} className={styles.message} />;
 };

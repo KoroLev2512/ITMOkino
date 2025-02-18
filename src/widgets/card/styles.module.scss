@@ -1,9 +1,50 @@
-.image {
-  flex-grow: 1;
-  margin-bottom: 14px;
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.3);
+  max-width: var(--imgWidth);
+  border-radius: var(--radius);
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  //width: var(--imgWidth);
+  //border: 1px solid rgba(0, 0, 0, 0.1);
+  //margin-top: calc(var(--padding)*2);
+}
+
+.title {
+  font-family: "Montserrat Alternates", sans-serif;
+  text-align: center;
+  font-size: 24px;
+  margin: 30px 0 0 20px;
+  color: #000;
+}
+
+.description {
+  font-family: Montserrat, sans-serif;
+  text-align: center;
+  font-size: 12px;
+  margin: 8px 0 20px 20px;
+  color: #7f8e91;
+}
+
+.image {
+  height: calc(var(--imgWidth) * 0.75);
+  margin: calc(var(--padding)*-1);
+  position: relative;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, auto));
+  gap: 16px;
 }

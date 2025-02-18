@@ -22,10 +22,11 @@
 }
 
 body {
-  background-color: var(--secondary-background-color);
+  background-color: var(--primary-background-color);
   font-family: "Regular", serif;
   margin: 0;
   font-size: 16px;
+  //background-color: var(--secondary-background-color);
 }
 
 button, svg {
@@ -58,6 +59,11 @@ button, svg {
   --input-color-text: #000000;
   --shadow-base: rgba(0, 0, 0, 0.2);
   --header-color:  #f5f8f9;
+
+  --imgWidth: 350px;
+  --radius: 20px;
+  --padding: 16px;
+  --margin: 16px;
 }
 
 :root[data-theme="dark"] {

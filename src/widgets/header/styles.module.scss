@@ -1,0 +1,33 @@
+.wrapper {
+  --firstColWidth: 100px;
+  display: grid;
+  grid-template-columns: var(--firstColWidth) 1fr;
+  align-items: center;
+  gap: var(--margin);
+  padding: var(--margin) 0;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: auto;
+  background-color: var(--gray-color);
+  &:hover {
+    background-color: var(--brand-blue-color);
+  }
+}
+
+.title {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 1000;
+  display: flex;
+  font-size: 28px;
+  color: black;
+  padding-right: calc(var(--firstColWidth) + var(--margin));
+}
