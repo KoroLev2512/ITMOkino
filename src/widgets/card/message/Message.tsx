@@ -1,13 +1,15 @@
-import React from "react";
-import { MovieCard } from "../MovieCard";
+import { MovieCard } from "@/widgets/card/MovieCard";
 import styles from "./styles.module.scss";
+import { ReactNode } from "react";
 
-export type MessageProps = {
-  title: string;
-  description: string;
-  image?: React.ReactNode;
-};
+export interface MessageProps {
+    id: number;
+    className: string;
+    title: string;
+    description: string;
+    image?: ReactNode;
+}
 
 export const Message = (props: MessageProps) => {
-	return <MovieCard {...props} className={styles.message} />;
+    return <MovieCard data={props} className={styles.message} />;
 };

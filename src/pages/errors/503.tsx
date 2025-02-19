@@ -5,6 +5,8 @@ import WorkerIcon from "../../../public/icons/worker-icon.svg";
 import styles from "./errors.styles.module.scss";
 
 const WorkerMessage: MessageProps = {
+	id: 503,
+	className: "error-message",
 	description: "Сейчас наш сервис не доступен. Не волнуйтесь, крыша не обвалилась. Мы просто решили сделать этот сайт немного лучше. Скоро всё будет работать",
 	title: "Внимание! Проводятся технические работы",
 	image: (

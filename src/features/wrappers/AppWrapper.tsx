@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, {useEffect} from "react";
 import ContentWrapper from "@/features/wrappers/ContentWrapper/ContentWrapper";
-import {useMountEffect} from "@/app/hooks/useMountEffect";
+import {useMountEffect} from "@/shared/hooks/useMountEffect";
 import {useAppStore} from "@/shared/store/appStore";
 import {parseCookies} from "nookies";
 import {Layout} from "./types";

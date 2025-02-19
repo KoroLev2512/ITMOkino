@@ -1,7 +1,8 @@
-.content {
-  display: flex;
-  flex-direction: column;
-  position: relative;
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, auto));
+  gap: 16px;
+  margin: 0 12px 20px;
 }
 
 .card {
@@ -17,6 +18,12 @@
   //width: var(--imgWidth);
   //border: 1px solid rgba(0, 0, 0, 0.1);
   //margin-top: calc(var(--padding)*2);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .title {
@@ -41,10 +48,4 @@
   position: relative;
   overflow: hidden;
   object-fit: cover;
-}
-
-.movieList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, auto));
-  gap: 16px;
 }

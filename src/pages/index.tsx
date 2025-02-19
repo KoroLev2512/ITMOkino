@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Home from "@/pages/home/index";
 import {GetServerSideProps, NextPage} from "next";
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "@/shared/store/slices/userSlice";
+import {RootState} from "@/shared/store/store";
 // import {useUserStore} from "@/entities/user";
 
 // interface UserState {
@@ -10,20 +13,22 @@ import {GetServerSideProps, NextPage} from "next";
 interface IProps {
 }
 
-const MainPage: NextPage<IProps> = (props) => {
-    // const [user] = useUserStore((state: UserState) => [state.user]);
-    // return <Home user={user}/>;
+const MainPage: NextPage = () => {
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.user.user);
 
-    return (
-        <Home/>
-    );
+    useEffect(() => {
+        if (!user) {
+            dispatch(setUser({id: 1, name: "Test User"}));
+        }
+    }, [user, dispatch]);
+
+    return <Home/>;
 };
 
 export const getServerSideProps: GetServerSideProps<IProps | object> = async () => {
     try {
-        return {
-            props: {},
-        };
+        return {props: {}};
     } catch (error) {
         return {props: {}};
     }

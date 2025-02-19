@@ -5,6 +5,7 @@ import styles from './movie.styles.module.scss';
 import classNames from 'classnames';
 
 const data: Movie = {
+    id: 1,
     title: "Кофе",
     description: "Фильм про кофе",
     image: "/images/kino.jpg",

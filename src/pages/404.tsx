@@ -4,6 +4,8 @@ import {Message, MessageProps} from "@/widgets/card/message";
 import ErrorIcon from "../../public/icons/error-icon.svg";
 
 const notFoundMessage: MessageProps = {
+	id: 404,
+	className: "error-message", // Add the className property
 	description: "Кажется, эта страничка отправилась на мероприятие и не вернулась",
 	title: "Упс! Что-то пошло не так...",
 	image: (
@@ -12,7 +14,7 @@ const notFoundMessage: MessageProps = {
 			height="100"
 			width="100"
 			alt="work in progress"
-			style={{marginBottom:10}}
+			style={{ marginBottom: 10 }}
 		/>
 	),
 };
