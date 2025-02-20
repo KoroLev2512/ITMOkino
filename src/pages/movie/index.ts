@@ -1,3 +1,3 @@
-import Movie from './movie';
+import Id from './[id]';
 
-export default Movie;
+export default Id;

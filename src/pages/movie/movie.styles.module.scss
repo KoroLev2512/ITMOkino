@@ -73,8 +73,40 @@
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
+
   &:hover {
     background: #5f6e71;
   }
 }
 
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.errorText {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 1000;
+  display: flex;
+  font-size: 28px;
+  color: black;
+  padding-right: calc(var(--firstColWidth) + var(--margin));
+}
+
+.errorButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--gray-color);
+  &:hover {
+    background-color: var(--brand-blue-color);
+  }
+}

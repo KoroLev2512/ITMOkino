@@ -1,15 +1,8 @@
 import { MovieCard } from "@/widgets/card/MovieCard";
-import styles from "./styles.module.scss";
-import { ReactNode } from "react";
+import { IMovieCard } from "@/entities/movie";
 
-export interface MessageProps {
-    id: number;
-    className: string;
-    title: string;
-    description: string;
-    image?: ReactNode;
-}
+export interface MessageProps extends IMovieCard {}
 
 export const Message = (props: MessageProps) => {
-    return <MovieCard data={props} className={styles.message} />;
+    return <MovieCard data={props}/>;
 };

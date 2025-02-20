@@ -1,23 +1,18 @@
 import classNames from "classnames";
-import React, {ReactNode} from "react";
+import React from "react";
 import {Text} from "@/shared/ui/Text";
 import Link from "next/link";
-// import {useDispatch} from "react-redux";
-// import {setMovieTitle} from "@/store/slices/moviesSlice";
+import {IMovieCard} from "@/entities/movie";
 import styles from "./styles.module.scss";
 
+// import {useDispatch} from "react-redux";
+// import {setMovieTitle} from "@/store/slices/moviesSlice";
+
 interface MovieCardProps {
-    data: {
-        id: number;
-        image?: ReactNode;
-        title: string;
-        description: string;
-        className?: string;
-    };
-    className?: string;
+    data: IMovieCard
 }
 
-export const MovieCard = (props: MovieCardProps) => {
+export const MovieCard = ({data}: MovieCardProps) => {
     // const dispatch = useDispatch();
     // const onClick = () => {
     //     dispatch(setMovieTitle({
@@ -26,11 +21,13 @@ export const MovieCard = (props: MovieCardProps) => {
     //     }));
     // }
     return (
-        <Link href='/movie' className={classNames(styles.card, props.className, props.data.className)}>
+        <Link href={`/movie/${data.id}`} className={classNames(styles.card, data.className)}>
             <div className={styles.content}>
-                <div className={styles.image}>{props.data.image}</div>
-                <Text className={styles.title}>{props.data.title}</Text>
-                <Text className={styles.description}>{props.data.description}</Text>
+                <div className={styles.image}>
+                    <img src={data.image} alt={data.title}/>
+                </div>
+                <Text className={styles.title}>{data.title}</Text>
+                <Text className={styles.description}>{data.description}</Text>
             </div>
         </Link>
     );

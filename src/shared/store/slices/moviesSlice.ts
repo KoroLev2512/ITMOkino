@@ -1,36 +1,55 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IMovieCard} from "@/entities/movie";
+import {Movie} from "@/entities/movie";
 
 interface MoviesState {
-    data: IMovieCard[];
-
+    data: Movie[];
 }
 
 const initialState: MoviesState = {
     data: [
         {
             id: 1,
-            title: "Кофе",
-            description: "Фильм про кофе",
             image: "/images/kino.jpg",
+            title: "Кофе",
+            genre: "Комедия",
+            description: "Фильм про кофе",
+            actors: ["Игорь Гомжин", "Альтер эго Игоря Гомжина"],
+            duration: 120,
+            year: 2021,
+            times: ["18:00", "20:00"],
         },
         {
             id: 2,
-            title: "Чай",
-            description: "Фильм про чай",
             image: "/images/kino.jpg",
+            title: "Чай",
+            genre: "Комедия",
+            description: "Фильм про чай",
+            actors: ["Иван Иванов", "Петр Петров"],
+            duration: 120,
+            year: 2021,
+            times: ["12:00", "14:00", "16:00", "18:00", "20:00"],
         },
         {
             id: 3,
+            image: "/images/kino.jpg",
             title: "Какао",
             description: "Фильм про какао",
-            image: "/images/kino.jpg",
+            genre: "Комедия",
+            actors: ["Иван Иванов", "Петр Петров"],
+            duration: 120,
+            year: 2021,
+            times: ["12:00", "14:00", "16:00", "18:00", "20:00"],
         },
         {
             id: 4,
             title: "Елки ИТМО",
             description: "Кринж теперь в ИТМО (хотя он никуда и не уходил)",
+            genre: "Кринж",
             image: "/images/kino.jpg",
+            actors: ["Иван Иванов", "Петр Петров"],
+            duration: 120,
+            year: 2021,
+            times: ["12:00", "14:00", "16:00", "18:00", "20:00"],
         },
     ]
 }
