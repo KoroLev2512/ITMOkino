@@ -7,10 +7,7 @@ const moviesApi = movieApi.injectEndpoints({
             query: () => "movies",
         }),
         getMovieById: builder.query<Movie, number>({
-            query: (id) => `movies/${id}`,
-            transformResponse(data: Movie[]):Movie {
-                return data[0];
-            },
+            query: (id) => `movies/${id}`
         }),
         createMovie: builder.mutation({
             query: (movie) => ({

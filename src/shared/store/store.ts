@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { moviesReducer, orderReducer } from "./slices";
+import { movieApi } from "@/app/api/movieApi";
 // import { userApi } from "./services/userApi";
-import { moviesReducer } from "./slices/moviesSlice";
-import {movieApi} from "@/app/api/movieApi";
 
 export const store = configureStore({
     reducer: {
         movies: moviesReducer,
+        order: orderReducer,
         [movieApi.reducerPath]: movieApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
-import Home from "@/pages/home/index";
 import {GetServerSideProps, NextPage} from "next";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "@/shared/store/slices/userSlice";
 import {RootState} from "@/shared/store";
+import HomePage from "@/pages/home/index";
 // import {useUserStore} from "@/entities/user";
 
 // interface UserState {
@@ -25,7 +25,7 @@ const MainPage: NextPage = () => {
 
     // if (isLoading) return <div>Loading...</div>
 
-    return <Home/>;
+    return <HomePage/>;
 };
 
 export const getServerSideProps: GetServerSideProps<IProps | object> = async () => {

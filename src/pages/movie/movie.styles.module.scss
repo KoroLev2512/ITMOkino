@@ -30,7 +30,7 @@
   margin-left: var(--margin);
 }
 
-.rightCol {
+.rightColumn {
   display: grid;
   gap: calc(var(--margin) * 2);
   align-content: start;
@@ -59,9 +59,11 @@
 }
 
 .sessionTimesList {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, 70px);
   gap: var(--margin);
+  margin: 0 auto;
+  flex-direction: row;
 }
 
 .sessionTimeItem {
@@ -73,6 +75,7 @@
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
+
 
   &:hover {
     background: #5f6e71;

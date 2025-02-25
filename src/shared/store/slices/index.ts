@@ -1,2 +1,3 @@
 export * from "./userSlice";
-export * from "./moviesSlice";
+export { moviesReducer } from "./moviesSlice";
+export { orderReducer } from "./orderSlice";

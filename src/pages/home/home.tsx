@@ -3,7 +3,7 @@ import {Text} from "@/shared/ui/Text";
 import {MovieList} from "@/widgets/card/MovieList";
 import styles from "./home.styles.module.scss";
 
-const Home = () => {
+const HomePage = () => {
     return (
         <div className={styles.wrapper}>
             <Text center children={"Welcome to itmokino"} className={styles.title}/>
@@ -13,4 +13,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;

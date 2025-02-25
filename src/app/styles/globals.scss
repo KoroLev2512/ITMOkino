@@ -1,5 +1,6 @@
 @use "./colors.scss";
 @use "./mixins.scss";
+@use "./style.css";
 
 @font-face {
   font-family: "Regular";
@@ -34,8 +35,19 @@ button, svg {
 }
 
 :root {
+  /* Colors */
   --primary-background-color: #f5f8f9;
   --secondary-background-color: #ffffff;
+
+  --accent: deepskyblue;
+  --secondary: #7f8e91;
+  --linkColor: #17b6eb;
+  --default: #333;
+  --light: white;
+
+  --statusAvailable: deepskyblue;
+  --statusBusy: #FF2525FF;
+  --statusSelected: #003c7b;
 
   --white-color: #fff;
   --light-gray-color: #f5f8f9;
@@ -51,19 +63,20 @@ button, svg {
   --burger-hover-color: rgba(156, 196, 255, 0.6);
   --arrow-hover-color: rgba(115, 132, 140, 0.25);
 
-  --yellow-color: #ffe074;
-  --primary-gray: #f5f5f5;
-  --icon-color: #fff;
-
   --input-disabled-bg: rgba(136, 136, 136, 0.25);
   --input-color-text: #000000;
   --shadow-base: rgba(0, 0, 0, 0.2);
   --header-color:  #f5f8f9;
 
+  /* Sizes */
   --imgWidth: 350px;
   --radius: 20px;
   --padding: 16px;
   --margin: 16px;
+
+  /* Seats Map */
+  --seats-size: 22px;
+  --seats-gap: 6px;
 }
 
 :root[data-theme="dark"] {
@@ -83,10 +96,6 @@ button, svg {
   --button-hover-color: #1e71de;
   --burger-hover-color: rgba(130, 180, 255, 0.25);
   --arrow-hover-color: rgba(159, 159, 159, 0.3);
-
-  --yellow-color: #ffe074;
-  --primary-gray: #3d3d3d;
-  --icon-color: #fff;
 
   --input-disabled-bg: #9f9f9f;
   --input-color-text: #000000;

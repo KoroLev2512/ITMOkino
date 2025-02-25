@@ -1,0 +1,82 @@
+.seatsSelect {
+  --size: var(--seats-size);
+  --gap: var(--seats-gap);
+  //--statusBusy: var(--statusBusy);
+  //--statusAvailable: var(--statusAvailable);
+  //--statusSelected: var(--statusSelected);
+
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--gap)*4);
+}
+
+.screen {
+  position: relative;
+  padding-top: 52px;
+  text-align: center;
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 600;
+
+  i {
+    --display-size: 600px;
+    pointer-events: none;
+    font-size: var(--display-size);
+    position: absolute;
+    top: calc(var(--display-size) / -2.3);
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 0 4px 12px var(--accent);
+  }
+}
+
+.place {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: calc(var(--gap)/2);
+  padding-right: calc(var(--size) + var(--gap));
+}
+
+.rows,
+.seats {
+  display: grid;
+  gap: var(--gap);
+  grid-auto-rows: var(--size);
+}
+
+.row {
+  display: grid;
+  align-items: end;
+  justify-items: center;
+}
+
+.seats {
+  font-size: var(--size);
+  grid-template-columns: repeat(34, var(--size));
+}
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  justify-items: center;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--gap)/2);
+  font-weight: 600;
+}
+
+.available {
+  color: var(--statusAvailable);
+}
+
+.busy {
+  color: var(--statusBusy);
+}
+
+.selected {
+  color: var(--statusSelected)
+}
