@@ -58,9 +58,9 @@ const MoviePage = (props: MovieProps) => {
                     </div>
                     <div className={styles.session}>
                         <h3 className={styles.subtitle}>Сеансы</h3>
-                        <div className={styles.sessionTimesList}>
+                        <Link href={'/ticket/1'} className={styles.sessionTimesList}>
                             {renderSessionTimes(movie.times || [])}
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

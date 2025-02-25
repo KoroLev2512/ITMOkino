@@ -1,8 +1,9 @@
 .wrapper {
   --firstColWidth: 100px;
   display: grid;
-  grid-template-columns: var(--firstColWidth) 1fr;
   align-items: center;
+  justify-content: center;
+  grid-template-columns: var(--firstColWidth) 1fr;
   gap: var(--margin);
   padding: var(--margin) 0;
 }
@@ -24,10 +25,13 @@
 }
 
 .title {
+  display: grid;
   font-family: "Montserrat Alternates", sans-serif;
   font-weight: 1000;
-  display: flex;
   font-size: 28px;
   color: black;
   padding-right: calc(var(--firstColWidth) + var(--margin));
+  margin-right: auto;
+  padding-top: 10px;
+
 }
