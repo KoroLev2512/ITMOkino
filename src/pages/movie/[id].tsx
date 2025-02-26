@@ -1,22 +1,23 @@
 import React from 'react';
-import {Header} from "@/widgets/header";
-import {useRouter} from "next/router";
+import { Header } from "@/widgets/header";
+import { useRouter } from "next/router";
 import classNames from 'classnames';
-import {useSelector} from "react-redux";
-import {RootState} from "@/shared/store";
-import {Movie} from "@/entities/movie";
-import {Text} from "@/shared/ui/Text";
-import styles from './movie.styles.module.scss';
+import { useSelector } from "react-redux";
+import { RootState } from "@/shared/store";
+import { Movie } from "@/entities/movie";
+import { Text } from "@/shared/ui/Text";
+import styles from '@/pages/movie/movie.styles.module.scss';
 import Link from "next/link";
 
 interface MovieProps {
     movie: Movie;
 }
 
-const MoviePage = (props: MovieProps) => {
+const MoviePage = ({ movie }: MovieProps) => {
     const router = useRouter();
-    const {id} = router.query;
-    const movie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id)));
+    const { id } = router.query;
+    const selectedMovie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id))) || movie;
+
     const renderSessionTimes = (times: string[]) => {
         return times.map((time) => {
             const classes = classNames(styles.sessionTimeItem);
@@ -24,7 +25,7 @@ const MoviePage = (props: MovieProps) => {
         });
     };
 
-    if (!movie) {
+    if (!selectedMovie) {
         return (
             <div className={styles.error}>
                 <Text center className={styles.errorText}>К сожалению, этот фильм не найден</Text>
@@ -32,34 +33,33 @@ const MoviePage = (props: MovieProps) => {
                     <button className={styles.errorButton}>На главную</button>
                 </Link>
             </div>
-
         );
     }
 
     return (
         <div className={styles.wrapper}>
-            <Header title={movie.title}/>
+            <Header title={selectedMovie.title} />
             <div className={styles.content}>
                 <div className={styles.leftColumn}>
                     <div className={styles.image}>
                         <img
-                            src={movie.image}
-                            alt={movie.title}
+                            src={selectedMovie.image}
+                            alt={selectedMovie.title}
                         />
                     </div>
                     <div className={styles.description}>
-                        {movie.description}
+                        {selectedMovie.description}
                     </div>
                 </div>
                 <div className={styles.rightColumn}>
                     <div className={styles.info}>
                         <div className={styles.infoLabel}>В ролях</div>
-                        <div className={styles.infoValue}>{movie.actors?.join(', ')}</div>
+                        <div className={styles.infoValue}>{selectedMovie.actors?.join(', ')}</div>
                     </div>
                     <div className={styles.session}>
                         <h3 className={styles.subtitle}>Сеансы</h3>
-                        <Link href={'/ticket/1'} className={styles.sessionTimesList}>
-                            {renderSessionTimes(movie.times || [])}
+                        <Link href={`/ticket/${id}`} className={styles.sessionTimesList}>
+                            {renderSessionTimes(selectedMovie.times || [])}
                         </Link>
                     </div>
                 </div>
@@ -69,3 +69,75 @@ const MoviePage = (props: MovieProps) => {
 };
 
 export default MoviePage;
+
+// import React from 'react';
+// import {Header} from "@/widgets/header";
+// import {useRouter} from "next/router";
+// import classNames from 'classnames';
+// import {useSelector} from "react-redux";
+// import {RootState} from "@/shared/store";
+// import {Movie} from "@/entities/movie";
+// import {Text} from "@/shared/ui/Text";
+// import styles from './movie.styles.module.scss';
+// import Link from "next/link";
+//
+// interface MovieProps {
+//     movie: Movie;
+// }
+//
+// const MoviePage = (props: MovieProps) => {
+//     const router = useRouter();
+//     const {id} = router.query;
+//     const movie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id)));
+//     const renderSessionTimes = (times: string[]) => {
+//         return times.map((time) => {
+//             const classes = classNames(styles.sessionTimeItem);
+//             return <div key={time} className={classes}>{time}</div>;
+//         });
+//     };
+//
+//     if (!movie) {
+//         return (
+//             <div className={styles.error}>
+//                 <Text center className={styles.errorText}>К сожалению, этот фильм не найден</Text>
+//                 <Link href={'/'}>
+//                     <button className={styles.errorButton}>На главную</button>
+//                 </Link>
+//             </div>
+//
+//         );
+//     }
+//
+//     return (
+//         <div className={styles.wrapper}>
+//             <Header title={movie.title}/>
+//             <div className={styles.content}>
+//                 <div className={styles.leftColumn}>
+//                     <div className={styles.image}>
+//                         <img
+//                             src={movie.image}
+//                             alt={movie.title}
+//                         />
+//                     </div>
+//                     <div className={styles.description}>
+//                         {movie.description}
+//                     </div>
+//                 </div>
+//                 <div className={styles.rightColumn}>
+//                     <div className={styles.info}>
+//                         <div className={styles.infoLabel}>В ролях</div>
+//                         <div className={styles.infoValue}>{movie.actors?.join(', ')}</div>
+//                     </div>
+//                     <div className={styles.session}>
+//                         <h3 className={styles.subtitle}>Сеансы</h3>
+//                         <Link href={'/ticket/1'} className={styles.sessionTimesList}>
+//                             {renderSessionTimes(movie.times || [])}
+//                         </Link>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+//
+// export default MoviePage;

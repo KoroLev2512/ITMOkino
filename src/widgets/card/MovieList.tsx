@@ -2,7 +2,6 @@ import React from 'react';
 import { IMovieCard } from "@/entities/movie";
 import { MovieCard } from "@/widgets/card/index";
 import classNames from "classnames";
-import {useGetAllMoviesQuery} from "@/app/api/movie";
 import styles from "./styles.module.scss";
 import {useSelector} from "react-redux";
 import {RootState} from "@/shared/store";

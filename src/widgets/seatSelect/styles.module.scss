@@ -1,9 +1,6 @@
 .seatsSelect {
   --size: var(--seats-size);
   --gap: var(--seats-gap);
-  //--statusBusy: var(--statusBusy);
-  //--statusAvailable: var(--statusAvailable);
-  //--statusSelected: var(--statusSelected);
 
   display: grid;
   justify-items: center;
@@ -79,4 +76,8 @@
 
 .selected {
   color: var(--statusSelected)
+}
+
+.pair {
+  margin-right: -10px;
 }
