@@ -7,7 +7,7 @@ import { Text } from "@/shared/ui/Text";
 import Link from "next/link";
 import { SessionTime } from "@/widgets/sessionTime";
 import { InfoTable } from "@/widgets/infoTable";
-import {helpers} from "@/pages/movie/helpers";
+import { helpers } from "@/shared/utils/helpers";
 import styles from './movie.styles.module.scss';
 
 interface MovieProps {

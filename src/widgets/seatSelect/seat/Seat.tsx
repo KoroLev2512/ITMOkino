@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {addSeat, clearOrder, deleteSeat} from '@/shared/store/slices/orderSlice';
-import styles from './styles.module.scss';
 import {RootState} from "@/shared/store";
+import styles from './styles.module.scss';
 
 interface SeatProps {
     className: string;
