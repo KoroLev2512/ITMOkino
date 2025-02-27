@@ -4,8 +4,8 @@ import {Seat} from '@/widgets/seatSelect/seat';
 import styles from './styles.module.scss';
 
 export const SeatSelect = () => {
-    let seatId = 1;
-    let resetIdx = 0;
+    let seat = 1;
+    let row = 1;
     let resetNums = [34, 34, 34, 34, 34, 34, 28, 28, 28, 28, 28, 28, 28, 28];
     const emptyCells = [204, 205, 206, 235, 236, 237, 238, 239, 240, 269, 270, 271, 272, 273, 274, 303, 304, 305, 306, 307, 308, 337, 338, 339, 340, 341, 342, 371, 372, 373, 374, 375, 376, 405, 406, 407, 408, 409, 410, 439, 440, 441, 442, 443, 444, 473, 474, 475];
 
@@ -25,25 +25,27 @@ export const SeatSelect = () => {
                 <div className={styles.seats}>
                     {Array(475).fill(0).map((item, i) => {
                         if (emptyCells.includes(i)) {
-                            return <div />
+                            return <div key={`null-${i}`} />
                         } else {
                             const classes = classNames('ic-seat', {
-                                [styles.available]: seatId !== 3 && seatId !== 5,
-                                [styles.busy]: seatId === 3,
-                                [styles.selected]: seatId === 5,
+                                [styles.available]: seat !== 3 && seat !== 5,
+                                [styles.busy]: seat === 3,
+                                [styles.selected]: seat === 5,
                             })
                             const data = {
-                                id: seatId,
-                                num: seatId,
-                                status: seatId !== 0 ? 'available' : 'busy',
+                                id: seat,
+                                row,
+                                seat,
+                                status: seat !== 0 ? 'available' : 'busy',
                             }
-                            if (seatId === resetNums[resetIdx] || seatId === 34) {
-                                seatId = 1
-                                resetIdx++
+                            if (seat === resetNums[row - 1] || seat === 34) {
+                                seat = 1
+                                row++
+                                data.row = row
                             } else {
-                                seatId++
+                                seat++
                             }
-                            return <Seat key={`seat-${i}`} className={classes} data={data} />;
+                            return <Seat key={`${row}-${seat}`} className={classes} data={data} />;
                         }
                     })}
                 </div>

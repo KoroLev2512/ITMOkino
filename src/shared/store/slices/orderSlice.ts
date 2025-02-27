@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Seat} from "@/shared/types/seat";
 
 interface OrderState {
-    seats: number[];
+    seats: Seat[];
 }
 
 const initialState: OrderState = {
@@ -12,11 +13,12 @@ const orderSlice = createSlice({
     name: 'orderSlice',
     initialState,
     reducers: {
-        addSeat(state, action: PayloadAction<number>) {
+        addSeat(state, action: PayloadAction<Seat>) {
             state.seats = [action.payload];
         },
-        deleteSeat(state, action: PayloadAction<number>) {
-            state.seats = state.seats.filter(seat => seat !== action.payload);
+        deleteSeat(state, action: PayloadAction<Seat>) {
+            const {row, seat} = action.payload;
+            state.seats = state.seats.filter((data) => data.seat !== seat && data.row !== row);
         },
         clearOrder(state) {
             state.seats = [];

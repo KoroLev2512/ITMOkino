@@ -1,0 +1,14 @@
+.sessionTime {
+  color: #fff;
+  background: #7f8e91;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #5f6e71;
+  }
+}

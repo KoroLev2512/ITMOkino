@@ -1,4 +1,12 @@
 .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     max-width: 1550px;
     margin: 0 auto;
+    gap: var(--gap);
+}
+
+.content {
+    margin: 50px auto;
 }

@@ -1,0 +1,16 @@
+.info {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: calc(var(--margin) / 2) var(--margin);
+  align-content: start;
+
+  .infoLabel {
+    color: #9f9f9f;
+    font-weight: 300;
+  }
+
+  .infoValue {
+    color: #0b0b15;
+    font-weight: 300;
+  }
+}

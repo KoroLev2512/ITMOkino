@@ -1,13 +1,14 @@
 import React from 'react';
-import { Header } from "@/widgets/header";
 import { useRouter } from "next/router";
-import classNames from 'classnames';
 import { useSelector } from "react-redux";
 import { RootState } from "@/shared/store";
 import { Movie } from "@/entities/movie";
 import { Text } from "@/shared/ui/Text";
-import styles from '@/pages/movie/movie.styles.module.scss';
 import Link from "next/link";
+import { SessionTime } from "@/widgets/sessionTime";
+import { InfoTable } from "@/widgets/infoTable";
+import {helpers} from "@/pages/movie/helpers";
+import styles from './movie.styles.module.scss';
 
 interface MovieProps {
     movie: Movie;
@@ -19,9 +20,8 @@ const MoviePage = ({ movie }: MovieProps) => {
     const selectedMovie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id))) || movie;
 
     const renderSessionTimes = (times: string[]) => {
-        return times.map((time) => {
-            const classes = classNames(styles.sessionTimeItem);
-            return <div key={time} className={classes}>{time}</div>;
+        return times.map((time, i) => {
+            return <SessionTime key={`${i}-${Date.now()}`} id={i} time={time} />;
         });
     };
 
@@ -38,7 +38,9 @@ const MoviePage = ({ movie }: MovieProps) => {
 
     return (
         <div className={styles.wrapper}>
-            <Header title={selectedMovie.title} />
+            <Text center className={styles.title}>
+                {selectedMovie.title}
+            </Text>
             <div className={styles.content}>
                 <div className={styles.leftColumn}>
                     <div className={styles.image}>
@@ -53,14 +55,13 @@ const MoviePage = ({ movie }: MovieProps) => {
                 </div>
                 <div className={styles.rightColumn}>
                     <div className={styles.info}>
-                        <div className={styles.infoLabel}>В ролях</div>
-                        <div className={styles.infoValue}>{selectedMovie.actors?.join(', ')}</div>
+                        <InfoTable data={helpers.getInfoData(movie)} />
                     </div>
                     <div className={styles.session}>
                         <h3 className={styles.subtitle}>Сеансы</h3>
-                        <Link href={`/ticket/${id}`} className={styles.sessionTimesList}>
+                        <div className={styles.sessionTimesList}>
                             {renderSessionTimes(selectedMovie.times || [])}
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>

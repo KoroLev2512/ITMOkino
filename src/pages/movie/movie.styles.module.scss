@@ -36,26 +36,15 @@
   align-content: start;
 }
 
-.info {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: calc(var(--margin) / 2) var(--margin);
-  align-content: start;
-
-  .infoLabel {
-    color: #9f9f9f;
-    font-weight: 300;
-  }
-}
-
 .subtitle {
+  font-size: 20px;
   text-align: center;
 }
 
 .session {
   margin-top: var(--margin);
   display: grid;
-  gap: var(--margin);
+  gap: calc(var(--margin)/2);
 }
 
 .sessionTimesList {
@@ -64,22 +53,6 @@
   gap: var(--margin);
   margin: 0 auto;
   flex-direction: row;
-}
-
-.sessionTimeItem {
-  color: #fff;
-  background: #7f8e91;
-  display: grid;
-  align-items: center;
-  justify-items: center;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-
-
-  &:hover {
-    background: #5f6e71;
-  }
 }
 
 .error {
@@ -111,5 +84,27 @@
   background-color: var(--gray-color);
   &:hover {
     background-color: var(--brand-blue-color);
+  }
+}
+
+.title {
+  display: grid;
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 1000;
+  font-size: 28px;
+  color: black;
+  padding-right: calc(var(--firstColWidth) + var(--margin));
+  padding-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+
+  .leftColumn {
+    margin-left: 0;
   }
 }
