@@ -21,7 +21,11 @@ const TicketPage: React.FC = () => {
         <div className={styles.wrapper}>
             <Header title={'Выбор места'}/>
             <SeatSelect/>
-            <div className={styles.content}><InfoTable data={getOrderInfo(order)}/></div>
+            {!!order.seats.length && <div className={styles.info}>
+                <div className={styles.title}>Бронирование</div>
+                <div className={styles.content}><InfoTable data={getOrderInfo(order)}/></div>
+                <button className={styles.button}>Подтвердить</button>
+            </div>}
         </div>
     );
 };

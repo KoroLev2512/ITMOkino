@@ -7,6 +7,32 @@
     gap: var(--gap);
 }
 
-.content {
-    margin: 50px auto;
+.info {
+    margin: 40px auto;
+}
+
+.title {
+    font-family: "Montserrat Alternates", serif;
+    text-align: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.button {
+    display: flex;
+    padding: 12px 30px;
+    border-radius: 5px;
+    color: var(--light);
+    background-color: var(--accent);
+    margin: 20px auto;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--brand-blue-color);
+    }
 }
