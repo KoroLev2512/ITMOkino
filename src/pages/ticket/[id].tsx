@@ -11,7 +11,7 @@ import {OrderState} from "@/shared/store/slices";
 const TicketPage: React.FC = () => {
     const { order } = useSelector((state: RootState) => state);
     const getOrderInfo = (order: OrderState) => {
-        return order.seats.map((seat, i) => ({
+        return order.seats.map((seat) => ({
             label: `Вы выбрали`,
             value: `Ряд ${seat.row}, Место ${seat.seat}`
         }));
