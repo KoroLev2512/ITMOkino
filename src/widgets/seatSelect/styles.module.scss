@@ -4,7 +4,7 @@
 
   display: grid;
   justify-items: center;
-  gap: calc(var(--gap)*4);
+  gap: calc(var(--gap)*8);
 }
 
 .screen {
@@ -30,15 +30,15 @@
 .place {
   display: grid;
   grid-template-columns: 30px 1fr;
-  gap: calc(var(--gap)/2);
+  gap: calc(var(--gap)/1.5);
   padding-right: calc(var(--size) + var(--gap));
 }
 
 .rows,
 .seats {
   display: grid;
-  gap: var(--gap);
-  grid-auto-rows: var(--size);
+  gap: calc(var(--gap)/1);
+  grid-auto-rows: calc(var(--size));
 }
 
 .row {
@@ -80,4 +80,10 @@
 
 .pair {
   margin-right: -10px;
+}
+
+@media (max-width: 860px) {
+  .seatsSelect {
+    gap: calc(var(--gap)*16);
+  }
 }

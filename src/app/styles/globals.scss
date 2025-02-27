@@ -66,7 +66,7 @@ button, svg {
   --input-disabled-bg: rgba(136, 136, 136, 0.25);
   --input-color-text: #000000;
   --shadow-base: rgba(0, 0, 0, 0.2);
-  --header-color:  #f5f8f9;
+  --header-color: #f5f8f9;
 
   /* Sizes */
   --imgWidth: 350px;
@@ -75,8 +75,23 @@ button, svg {
   --margin: 16px;
 
   /* Seats Map */
-  --seats-size: 22px;
-  --seats-gap: 6px;
+  --seats-size: 28px;
+  --seats-gap: 4px;
+
+  @media (max-width: 1200px) {
+    --seats-size: 24px;
+    --seats-gap: 4px;
+  }
+
+  @media (max-width: 1000px) {
+    --seats-size: 20px;
+    --seats-gap: 4px;
+  }
+
+  @media (max-width: 860px) {
+    --seats-size: 16px;
+    --seats-gap: 2px;
+  }
 }
 
 :root[data-theme="dark"] {
