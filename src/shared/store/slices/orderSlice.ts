@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Seat} from "@/shared/types/seat";
 
-interface OrderState {
+export interface OrderState {
     seats: Seat[];
 }
 
