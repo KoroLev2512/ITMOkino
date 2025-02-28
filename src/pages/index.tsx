@@ -1,3 +1,39 @@
+import React from "react";
+import { GetServerSideProps, NextPage } from "next";
+import MoviePage from "@/pages/movie/[id]";
+import {MovieWithSessions} from "@/entities/movie";
+
+interface IMovieProps {
+    movie: MovieWithSessions;
+}
+
+const MainPage: NextPage<IMovieProps> = ({ movie }) => {
+    return <MoviePage movie={movie} />;
+};
+
+export const getServerSideProps: GetServerSideProps<IMovieProps> = async () => {
+    try {
+
+        const movie: MovieWithSessions = {
+            id: 1,
+            title: "ITMO Kino",
+            description: "Фильм про кофе",
+            image: "/images/kino.jpg",
+            actors: ["Игорь Гомжин", "и все его альтер эго"],
+            times: ["10:00", "12:00"],
+            sessions: [
+                { id: 1, movieId: 1, time: "19:00" },
+                { id: 2, movieId: 1, time: "21:00" }
+            ]
+        };
+        return { props: { movie } };
+    } catch (error) {
+        return { props: { movie: { id: 0, title: "", description: "", image: "", actors: [], times: [], sessions: [] } } };
+    }
+};
+
+export default MainPage;
+
 // import React, {useEffect} from "react";
 // import {GetServerSideProps, NextPage} from "next";
 // import {useDispatch, useSelector} from "react-redux";
@@ -38,41 +74,4 @@
 // };
 //
 // export default MainPage;
-
-import React from "react";
-import { GetServerSideProps, NextPage } from "next";
-import MoviePage from "@/pages/movie/[id]";
-
-interface IProps {
-    movie: {
-        id: number;
-        title: string;
-        description: string;
-        image: string;
-        actors: string[];
-        times: string[];
-    };
-}
-
-const MainPage: NextPage<IProps> = ({ movie }) => {
-    return <MoviePage movie={movie} />;
-};
-
-export const getServerSideProps: GetServerSideProps<IProps> = async () => {
-    try {
-        const movie = {
-            id: 1,
-            title: "ITMO Kino",
-            description: "Фильм про кофе",
-            image: "/images/kino.jpg",
-            actors: ["Игорь Гомжин", "и все его альтер эго"],
-            times: ["10:00", "12:00"]
-        };
-        return { props: { movie } };
-    } catch (error) {
-        return { props: { movie: { id: 0, title: "", description: "", image: "", actors: [], times: [] } } };
-    }
-};
-
-export default MainPage;
 

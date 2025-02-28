@@ -1,13 +1,16 @@
 import { movieApi } from "@/app/api/movieApi";
-import {Movie} from "@/entities/movie";
+import {Movie, MovieWithSessions} from "@/entities/movie";
 
 const moviesApi = movieApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllMovies: builder.query<Movie[], void>({
             query: () => "movies",
         }),
-        getMovieById: builder.query<Movie, number>({
-            query: (id) => `movies/${id}`
+        getMovieById: builder.query<MovieWithSessions, number>({
+            query: (id) => `movies/${id}&_embed_sessions`,
+            transformResponse(data: MovieWithSessions[]) {
+                return data[0];
+            }
         }),
         createMovie: builder.mutation({
             query: (movie) => ({

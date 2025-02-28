@@ -1,3 +1,5 @@
+import {Session} from "@/entities/movie/types/session";
+
 export interface IMovieCard {
     id: number;
     image: any;
@@ -12,4 +14,8 @@ export interface Movie extends IMovieCard {
     actors?: string[];
     duration?: number;
     year?: number;
+}
+
+export interface MovieWithSessions extends Movie {
+    sessions: Session[];
 }

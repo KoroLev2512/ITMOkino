@@ -2,16 +2,17 @@ import React from 'react';
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { RootState } from "@/shared/store";
-import { Movie } from "@/entities/movie";
+import {MovieWithSessions} from "@/entities/movie";
 import { Text } from "@/shared/ui/Text";
 import Link from "next/link";
 import { SessionTime } from "@/widgets/sessionTime";
 import { InfoTable } from "@/widgets/infoTable";
 import { helpers } from "@/shared/utils/helpers";
 import styles from './movie.styles.module.scss';
+import {Session} from "@/entities/movie/types";
 
 interface MovieProps {
-    movie: Movie;
+    movie: MovieWithSessions;
 }
 
 const MoviePage = ({ movie }: MovieProps) => {
@@ -19,9 +20,9 @@ const MoviePage = ({ movie }: MovieProps) => {
     const { id } = router.query;
     const selectedMovie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id))) || movie;
 
-    const renderSessionTimes = (times: string[]) => {
-        return times.map((time, i) => {
-            return <SessionTime key={`${i}-${Date.now()}`} id={i} time={time} />;
+    const renderSessionTimes = (sessions: Session[]) => {
+        return sessions.map(({id, time}) => {
+            return <SessionTime key={`${id}-${Date.now()}`} id={id} time={time} />;
         });
     };
 
@@ -60,7 +61,7 @@ const MoviePage = ({ movie }: MovieProps) => {
                     <div className={styles.session}>
                         <h3 className={styles.subtitle}>Сеансы</h3>
                         <div className={styles.sessionTimesList}>
-                            {renderSessionTimes(selectedMovie.times || [])}
+                            {renderSessionTimes(movie.sessions || [])}
                         </div>
                     </div>
                 </div>
