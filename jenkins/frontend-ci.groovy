@@ -13,7 +13,13 @@ pipeline {
                 sh 'pwd'
             }
         }
-        stage('Setup frontend dev server') {
+        stage('Stop previous dev-server') {
+            steps {
+                sh 'pm2 stop dev-server'
+                sh 'pm2 delete dev-server'
+            }
+        }
+        stage('Setup frontend dev-server') {
             steps {
                 sh 'npm install'
                 sh 'npm run build'
