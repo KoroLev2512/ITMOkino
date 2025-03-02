@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: '${branch}',
+                git branch: main,
                     credentialsId: 'github',
                     url: 'git@github.com:KoroLev2512/ITMO-kino.git'
             }
