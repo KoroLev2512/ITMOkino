@@ -22,8 +22,8 @@ export const getServerSideProps: GetServerSideProps<IMovieProps> = async () => {
             actors: ["Игорь Гомжин", "и все его альтер эго"],
             times: ["10:00", "12:00"],
             sessions: [
-                { id: 1, movieId: 1, time: "19:00" },
-                { id: 2, movieId: 1, time: "21:00" }
+                { id: 1, movieId: 1, time: "19:00", seatId: 101 },
+                { id: 2, movieId: 1, time: "21:00", seatId: 102 }
             ]
         };
         return { props: { movie } };
