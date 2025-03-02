@@ -15,8 +15,8 @@ pipeline {
         }
         stage('Stop previous dev-server') {
             steps {
-                sh 'pm2 stop dev-server'
-                sh 'pm2 delete dev-server'
+                sh 'pm2 stop dev-server || true'
+                sh 'pm2 delete dev-server || true'
             }
         }
         stage('Setup frontend dev-server') {
