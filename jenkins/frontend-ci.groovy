@@ -9,8 +9,10 @@ pipeline {
             }
         }
         stage('Check current stat') {
-            sh 'ls'
-            sh 'pwd'
+            steps {
+                sh 'ls'
+                sh 'pwd'
+            }
         }
         stage('Setup frontend dev server') {
             steps {
