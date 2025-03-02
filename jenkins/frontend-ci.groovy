@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh 'npm install'
                 sh 'npm run build'
-                sh 'nohup npm run dev &'
+                sh 'pm2 start npm --name "dev-server" -- run dev'
             }
         }
     }
