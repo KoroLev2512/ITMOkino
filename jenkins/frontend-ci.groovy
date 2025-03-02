@@ -8,6 +8,10 @@ pipeline {
                     url: 'git@github.com:KoroLev2512/ITMO-kino.git'
             }
         }
+        stage('Check current stat') {
+            sh 'ls'
+            sh 'pwd'
+        }
         stage('Setup frontend dev server') {
             steps {
                 sh 'npm install'
