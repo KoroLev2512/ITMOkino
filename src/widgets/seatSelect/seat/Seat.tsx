@@ -6,7 +6,6 @@ import {RootState} from "@/shared/store";
 import styles from './styles.module.scss';
 
 interface SeatProps {
-    className: string;
     data: {
         row: number;
         seat: number;

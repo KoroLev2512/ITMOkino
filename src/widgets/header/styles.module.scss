@@ -12,13 +12,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white-color);
   border: none;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   margin: auto;
-  background-color: var(--gray-color);
+  background-color: var(--main-color);
   &:hover {
     background-color: var(--brand-blue-color);
   }
@@ -29,7 +29,7 @@
   font-family: "Montserrat Alternates", sans-serif;
   font-weight: 1000;
   font-size: 28px;
-  color: black;
+  color: var(--white-color);
   padding-right: calc(var(--firstColWidth) + var(--margin));
   margin-right: auto;
   padding-top: 10px;

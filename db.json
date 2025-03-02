@@ -17,18 +17,19 @@
     {
       "id": 1,
       "time": "18:00",
-      "movieId": 1
+      "movieId": 1,
+      "seatId": 1
     },
     {
       "id": 2,
       "time": "20:00",
-      "movieId": 1
+      "movieId": 1,
+      "seatId": 1
     }
   ],
   "seats": [
     {
       "id": 1,
-      "sessionId": 1,
       "buy_seat": [
         {
           "row": 1,

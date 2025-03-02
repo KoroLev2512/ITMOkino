@@ -1,3 +1,3 @@
 export * from './movie';
-export * from './ticket';
+export * from './session';
 export * from './movieApi';
