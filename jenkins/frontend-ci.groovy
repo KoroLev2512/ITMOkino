@@ -8,9 +8,8 @@ pipeline {
                     url: 'git@github.com:KoroLev2512/ITMO-kino.git'
             }
         }
-        stage('Check current stat') {
+        stage('Check current state') {
             steps {
-                sh 'ls'
                 sh 'pwd'
             }
         }
