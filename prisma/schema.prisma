@@ -1,0 +1,35 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+model Movie {
+  id        Int      @id @default(autoincrement())
+  image     String   @db.VarChar(255)
+  title     String   @db.VarChar(255)
+  genre     String   @db.VarChar(100)
+  description String
+  duration  Int
+  premiere  DateTime @db.Date
+  year      Int
+  actors    Json
+  sessions  Session[]
+}
+model Session {
+  id       Int      @id @default(autoincrement())
+  time     String
+  movieId  Int
+  movie    Movie   @relation(fields: [movieId], references: [id])
+  seats    Seat[]
+}
+model Seat {
+  id        Int      @id @default(autoincrement())
+  sessionId Int
+  row       Int
+  seat      Int
+  session   Session @relation(fields: [sessionId], references: [id])
+}
