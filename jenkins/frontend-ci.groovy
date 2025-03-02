@@ -10,7 +10,9 @@ pipeline {
         }
         stage('Setup frontend dev server') {
             steps {
-                sh 'test message'
+                sh 'npm install'
+                sh 'npm run build'
+                sh 'npm run dev'
             }
         }
     }
