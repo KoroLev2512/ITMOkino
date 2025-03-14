@@ -1,5 +1,6 @@
 import React from "react";
 import { GetServerSideProps, NextPage } from "next";
+import HomePage from "@/pages/home";
 import MoviePage from "@/pages/movie/[id]";
 import {MovieWithSessions} from "@/entities/movie";
 
@@ -8,7 +9,7 @@ interface IMovieProps {
 }
 
 const MainPage: NextPage<IMovieProps> = ({ movie }) => {
-    return <MoviePage movie={movie} />;
+    return <HomePage/>;
 };
 
 export const getServerSideProps: GetServerSideProps<IMovieProps> = async () => {

@@ -1,17 +1,21 @@
-import React from "react";
-import {Text} from "@/shared/ui/Text";
-import {MovieList} from "@/widgets/card/MovieList";
-import styles from "./home.styles.module.scss";
+// import { MovieList } from '../../widgets/MovieList'
+// import { Text } from '../../shared/ui/Text'
+import { Landing } from "@/widgets/Landing";
+import styles from './home.styles.module.scss';
 
-const HomePage = () => {
+export const HomePage = () => {
     return (
-        <div className={styles.wrapper}>
-            <Text center children={"Welcome to itmokino"} className={styles.title}/>
-            <MovieList/>
-            {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
+        <div className={styles.bg}>
+            <div className={styles.wrapper}>
+                <Landing/>
+                {/* <Text center children={"Welcome to itmokino"} className={styles.title}/> */}
+                {/* <MovieList/> */}
+                {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+            </div>
         </div>
     );
 };
+
 
 export default HomePage;
 
