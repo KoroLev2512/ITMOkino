@@ -20,6 +20,7 @@ const MoviePage = ({ movie }: MovieProps) => {
     const { id } = router.query;
     const selectedMovie = useSelector((state: RootState) => state.movies.data.find(movie => movie.id === Number(id))) || movie;
 
+    //eslint-disable-next-line @typescript-eslint/no-unused-vars
     const renderSessionTimes = (sessions: Session[]) => {
         return sessions.map(({id, time}) => {
             return <SessionTime key={`${id}-${Date.now()}`} id={id} time={time} />;
