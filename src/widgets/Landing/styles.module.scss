@@ -110,7 +110,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--margin);
-  justify-content: center;
+  justify-content: flex-start;
   margin: calc(var(--margin) * 4) 0;
   user-select: none;
 }
