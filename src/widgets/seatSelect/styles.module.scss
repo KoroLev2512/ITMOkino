@@ -1,89 +1,130 @@
-.seatsSelect {
-  --size: var(--seats-size);
-  --gap: var(--seats-gap);
+@use "sass:color";
 
-  display: grid;
-  justify-items: center;
-  gap: calc(var(--gap)*8);
+.seatsSelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+.loading {
+  padding: 40px 0;
+  font-size: 18px;
+  text-align: center;
+  color: #666;
+}
+
+.noSeats {
+  padding: 40px 0;
+  font-size: 18px;
+  text-align: center;
+  color: #666;
 }
 
 .screen {
   position: relative;
-  padding-top: 52px;
+  padding-top: 30px;
   text-align: center;
   color: var(--accent);
   font-size: 18px;
   font-weight: 600;
+  margin-bottom: 40px;
+  width: 100%;
 
   i {
-    --display-size: 600px;
-    pointer-events: none;
-    font-size: var(--display-size);
-    position: absolute;
-    top: calc(var(--display-size) / -2.3);
-    left: 50%;
-    transform: translateX(-50%);
-    text-shadow: 0 4px 12px var(--accent);
+    font-size: 60px;
+    color: var(--accent);
+  }
+
+  span {
+    display: block;
+    margin-top: 10px;
   }
 }
 
-.place {
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  gap: calc(var(--gap)/1.5);
-  padding-right: calc(var(--size) + var(--gap));
+.hallWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 20px;
 }
 
-.rows,
-.seats {
-  display: grid;
-  gap: calc(var(--gap)/1);
-  grid-auto-rows: calc(var(--size));
-}
-
-.row {
-  display: grid;
-  align-items: end;
-  justify-items: center;
-}
-
-.seats {
-  font-size: var(--size);
-  grid-template-columns: repeat(34, var(--size));
-}
-
-.info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
-  justify-items: center;
-}
-
-.infoItem {
+.rowContainer {
   display: flex;
   align-items: center;
-  gap: calc(var(--gap)/2);
-  font-weight: 600;
+  gap: 15px;
 }
 
-.available {
-  color: var(--statusAvailable);
+.rowNumber {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
 }
 
-.busy {
-  color: var(--statusBusy);
+.rowSeats {
+  display: flex;
+  gap: 10px;
 }
 
-.selected {
-  color: var(--statusSelected)
+.seat {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background-color: var(--statusAvailable, #4CAF50);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &.reserved {
+    background-color: var(--statusBusy, #F44336);
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+
+  &.selected {
+    background-color: var(--statusSelected, #2196F3);
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.8);
+  }
 }
 
-.pair {
-  margin-right: -10px;
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
 }
 
-@media (max-width: 860px) {
-  .seatsSelect {
-    gap: calc(var(--gap)*16);
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seatSample {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: var(--statusAvailable, #4CAF50);
+
+  &.reserved {
+    background-color: var(--statusBusy, #F44336);
+  }
+
+  &.selected {
+    background-color: var(--statusSelected, #2196F3);
   }
 }

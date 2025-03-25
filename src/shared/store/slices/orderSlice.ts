@@ -14,13 +14,16 @@ const orderSlice = createSlice({
     initialState,
     reducers: {
         addSeat(state, action: PayloadAction<Seat>) {
+            console.log('Redux: Adding seat to order', action.payload);
             state.seats = [action.payload];
         },
         deleteSeat(state, action: PayloadAction<Seat>) {
+            console.log('Redux: Deleting seat from order', action.payload);
             const {row, seat} = action.payload;
             state.seats = state.seats.filter((data) => data.seat !== seat && data.row !== row);
         },
         clearOrder(state) {
+            console.log('Redux: Clearing order');
             state.seats = [];
         }
     }

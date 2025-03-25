@@ -3,19 +3,23 @@
   flex-direction: column;
   max-width: 1550px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .content {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: calc(var(--margin) * 2);
+  gap: calc(var(--margin) * 3);
+  margin-top: 30px;
+  margin-bottom: 40px;
 }
 
 .image {
   width: 100%;
-  margin-bottom: var(--margin);
+  margin-bottom: calc(var(--margin) * 2);
   overflow: hidden;
   border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   img {
     width: 100%;
@@ -30,21 +34,44 @@
   margin-left: var(--margin);
 }
 
+.description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
 .rightColumn {
   display: grid;
-  gap: calc(var(--margin) * 2);
+  gap: calc(var(--margin) * 3);
   align-content: start;
 }
 
 .subtitle {
-  font-size: 20px;
+  font-size: 22px;
   text-align: center;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 .session {
-  margin-top: var(--margin);
+  margin-top: calc(var(--margin) * 2);
   display: grid;
-  gap: calc(var(--margin)/2);
+  gap: calc(var(--margin));
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.info {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .sessionTimesList {
@@ -53,6 +80,8 @@
   gap: var(--margin);
   margin: 0 auto;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .error {
@@ -95,6 +124,33 @@
   color: black;
   padding-right: calc(var(--firstColWidth) + var(--margin));
   padding-top: 10px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  width: 100%;
+}
+
+.noImage {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  color: #888;
+  font-size: 18px;
+  border-radius: 20px;
+}
+
+.noSessions {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+  padding: 20px 0;
 }
 
 @media (max-width: 1024px) {

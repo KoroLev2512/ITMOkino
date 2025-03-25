@@ -167,3 +167,13 @@ input:disabled {
 a {
   text-decoration: none;
 }
+
+// Add styles for the loading auth state
+.loading-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+}

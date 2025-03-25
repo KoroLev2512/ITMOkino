@@ -42,11 +42,23 @@ async function main() {
         create: {
             sessionId: 1,
             row: 2,
-            seat: 5
+            seat: 5,
+            isReserved: false
         },
     });
+    
+    // Create admin user
+    const adminUser = await prisma.user.upsert({
+        where: { username: 'admin' },
+        update: {},
+        create: {
+            username: 'admin',
+            password: '$2a$10$GQf5YhKfR6oRPZxzT.tMUObYqNNUSU0N9yTx5/TUqmEVJ.EREiCse', // "admin123" hashed
+            isAdmin: true
+        }
+    });
 
-    console.log(movie);
+    console.log({ movie, adminUser });
 }
 
 main()
