@@ -186,8 +186,8 @@ const TicketPage: React.FC = () => {
                 
                 // For demo purposes, using placeholder customer data
                 const customerData = {
-                    name: "Demo Customer " + new Date().getTime(),
-                    email: "demo" + new Date().getTime() + "@example.com"
+                    customerName: "Demo Customer " + new Date().getTime(),
+                    customerPhone: "demo" + new Date().getTime() + "@example.com"
                 };
                 
                 console.log('Sending reservation request with data:', customerData);
@@ -237,8 +237,8 @@ const TicketPage: React.FC = () => {
                             
                             // If seat exists but is not reserved, use it for booking
                             const customerData = {
-                                name: "Demo Customer " + new Date().getTime(),
-                                email: "demo" + new Date().getTime() + "@example.com"
+                                customerName: "Demo Customer " + new Date().getTime(),
+                                customerPhone: "demo" + new Date().getTime() + "@example.com"
                             };
                             
                             try {
@@ -277,8 +277,8 @@ const TicketPage: React.FC = () => {
                     
                     // Reserve the newly created seat
                     const customerData = {
-                        name: "Demo Customer " + new Date().getTime(),
-                        email: "demo" + new Date().getTime() + "@example.com"
+                        customerName: "Demo Customer " + new Date().getTime(),
+                        customerPhone: "demo" + new Date().getTime() + "@example.com"
                     };
                     
                     const result = await reserveSeat(newSeat.id, customerData);

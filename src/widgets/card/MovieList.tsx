@@ -14,7 +14,7 @@ export const MovieList = ({ className }: MovieListProps) => {
     const classes = classNames(styles.movieList, className);
     // const { isLoading, data } = useGetAllMoviesQuery();
 
-    const data = useSelector((state: RootState) => state.movies.data);
+    const data = useSelector((state: RootState) => state.movieApi.getAllMovies.data);
 
     function renderList(data: IMovieCard[]) {
         return data.map((movie) => (

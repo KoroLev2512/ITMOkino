@@ -53,7 +53,7 @@ const MoviePage = () => {
                     actors: typeof movieData.actors === 'string' 
                         ? JSON.parse(movieData.actors) 
                         : movieData.actors,
-                    times: sessionsData.map(session => session.time),
+                    times: sessionsData.map((session: any) => session.time),
                     sessions: sessionsData
                 };
                 

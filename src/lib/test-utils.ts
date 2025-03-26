@@ -53,7 +53,7 @@ export const createMockRequest = (options: {
   headers?: any;
 }) => {
   return createMocks({
-    method: options.method || 'GET',
+    method: options.method as 'GET' | 'POST' || 'GET',
     body: options.body || {},
     query: options.query || {},
     headers: options.headers || {},

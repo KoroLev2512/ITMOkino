@@ -12,4 +12,9 @@ if (process.env.NODE_ENV === 'production') {
   prisma = global.prisma;
 }
 
+// Add global type definition for prisma
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+
 export default prisma; 

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ROLES } from '../../types/userState';
+import { create } from 'zustand';
 
 // Define the user state type
 interface User {
@@ -15,6 +16,27 @@ interface UserState {
 	isLoading: boolean;
 	error: string | null;
 }
+
+interface UserStore {
+	user: User | null;
+	isAdmin: boolean;
+	isAuthenticated: boolean;
+	setUser: (user: User) => void;
+	clearUser: () => void;
+}
+
+// Create Zustand store for user
+export const useUserStore = create<UserStore>((set) => ({
+	user: null,
+	isAdmin: false,
+	isAuthenticated: false,
+	setUser: (user: User) => set({ 
+		user: user,
+		isAdmin: user?.isAdmin || false,
+		isAuthenticated: !!user
+	}),
+	clearUser: () => set({ user: null, isAdmin: false, isAuthenticated: false }),
+}));
 
 // Initial state
 const initialState: UserState = {

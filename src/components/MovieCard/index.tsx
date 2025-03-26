@@ -14,7 +14,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         <Image
           src={movie.image || 'https://via.placeholder.com/300x450'}
           alt={movie.title}
-          fill
+          fill={true}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
         />
