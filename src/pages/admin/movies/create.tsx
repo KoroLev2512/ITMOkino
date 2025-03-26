@@ -4,26 +4,29 @@ import Link from 'next/link';
 import { createMovie } from '@/lib/api';
 import styles from '../admin.module.scss';
 
+// Match the interface from edit page
 interface MovieFormData {
   title: string;
+  genre: string;
   description: string;
   image: string;
-  genre: string;
-  year: number;
   duration: number;
-  actors: string;
+  premiere: string; // For the form we use string for date input
+  year: number;
+  actors: string; // Store as JSON string in the form, just like in edit page
 }
 
 const CreateMoviePage = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<MovieFormData>({
     title: '',
-    description: '',
-    image: '/images/kino.jpg', // Default image path
     genre: '',
-    year: new Date().getFullYear(),
+    description: '',
+    image: '',
     duration: 120,
-    actors: '',
+    premiere: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD format
+    year: new Date().getFullYear(),
+    actors: '' // Empty string instead of JSON array
   });
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -57,7 +60,7 @@ const CreateMoviePage = () => {
     
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'year' || name === 'duration' ? parseInt(value) : value
+      [name]: name === 'year' || name === 'duration' ? parseInt(value) || 0 : value
     }));
   };
   
@@ -73,24 +76,30 @@ const CreateMoviePage = () => {
     setError('');
 
     try {
-      // Convert actors string to array
-      const actorsArray = formData.actors.split(',').map(actor => actor.trim()).filter(Boolean);
-      
-      const movieData = {
-        ...formData,
-        actors: actorsArray
-      };
-      
+      // Get authentication token
       const token = localStorage.getItem('auth_token');
       if (!token) {
         throw new Error('Authentication required');
       }
       
+      // Process the actors field - convert from comma-separated string to array
+      const actorsArray = formData.actors
+        .split(',')
+        .map(actor => actor.trim())
+        .filter(Boolean);
+      
+      // Prepare the data for the API
+      const movieData = {
+        ...formData,
+        actors: actorsArray // Use array directly instead of parsing JSON
+      };
+      
+      console.log('Submitting movie data:', movieData);
       await createMovie(movieData, token);
       router.push('/admin');
     } catch (err: any) {
       console.error('Error creating movie:', err);
-      setError(err.response?.data?.message || 'Failed to create movie');
+      setError(err.response?.data?.message || err.message || 'Failed to create movie');
     } finally {
       setLoading(false);
     }
@@ -112,114 +121,115 @@ const CreateMoviePage = () => {
       
       {error && <div className={styles.errorMessage}>{error}</div>}
       
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label htmlFor="title">Название</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="description">Описание</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="image">URL изображения</label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="genre">Жанр</label>
-          <input
-            type="text"
-            id="genre"
-            name="genre"
-            value={formData.genre}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="year">Год выпуска</label>
-          <input
-            type="number"
-            id="year"
-            name="year"
-            value={formData.year}
-            onChange={handleChange}
-            min="1900"
-            max="2100"
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="duration">Продолжительность (минут)</label>
-          <input
-            type="number"
-            id="duration"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            min="1"
-            required
-          />
-        </div>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="actors">Актеры (через запятую)</label>
-          <input
-            type="text"
-            id="actors"
-            name="actors"
-            value={formData.actors}
-            onChange={handleChange}
-            placeholder="Актер 1, Актер 2, Актер 3"
-          />
-        </div>
-        
-        <div className={styles.formActions}>
-          <button
-            type="submit"
-            className={styles.addButton}
-            disabled={loading}
-          >
-            {loading ? 'Создание...' : 'Создать фильм'}
-          </button>
+      <div className={styles.tableContainer}>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
+            <label htmlFor="title">Название</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
           
-          <Link href="/admin">
-            <button type="button" className={styles.cancelButton}>
-              Отмена
-            </button>
-          </Link>
-        </div>
-      </form>
-      
-      <div className={styles.backLinks}>
-        <Link href="/admin">
-          <button className={styles.cancelButton}>Назад к списку фильмов</button>
-        </Link>
+          <div className={styles.formGroup}>
+            <label htmlFor="genre">Жанр</label>
+            <input
+              type="text"
+              id="genre"
+              name="genre"
+              value={formData.genre}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="description">Описание</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows={4}
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="image">URL изображения</label>
+            <input
+              type="text"
+              id="image"
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="duration">Длительность (минуты)</label>
+            <input
+              type="number"
+              id="duration"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              required
+              min="1"
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="premiere">Дата премьеры</label>
+            <input
+              type="date"
+              id="premiere"
+              name="premiere"
+              value={formData.premiere}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="year">Год выпуска</label>
+            <input
+              type="number"
+              id="year"
+              name="year"
+              value={formData.year}
+              onChange={handleChange}
+              required
+              min="1900"
+              max="2100"
+            />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="actors">Актеры (через запятую)</label>
+            <textarea
+              id="actors"
+              name="actors"
+              value={formData.actors}
+              onChange={handleChange}
+              required
+              rows={2}
+              placeholder="Актер 1, Актер 2, Актер 3"
+            />
+          </div>
+          
+          <div className={styles.formActions}>
+            <button type="submit" className={styles.addButton}>Создать</button>
+            <Link href="/admin">
+              <button type="button" className={styles.cancelButton}>Отмена</button>
+            </Link>
+          </div>
+        </form>
       </div>
     </div>
   );

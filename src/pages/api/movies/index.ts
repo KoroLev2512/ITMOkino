@@ -9,7 +9,14 @@ async function handler(req: NextApiRequest | AuthenticatedRequest, res: NextApiR
       const movies = await prisma.movie.findMany({
         include: { sessions: true }
       });
-      return res.status(200).json(movies);
+      
+      // Convert premiere string to Date objects to match test expectations
+      const formattedMovies = movies.map(movie => ({
+        ...movie,
+        premiere: movie.premiere instanceof Date ? movie.premiere : new Date(movie.premiere as string)
+      }));
+      
+      return res.status(200).json(formattedMovies);
     } catch (error) {
       console.error('Error fetching movies:', error);
       return res.status(500).json({ message: 'Failed to fetch movies' });

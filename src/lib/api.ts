@@ -30,8 +30,10 @@ export const getMovie = async (id: number) => {
 };
 
 // Sessions
-export const getSessions = async (movieId: number) => {
-  const response = await axios.get(`${getBaseUrl()}/api/sessions?movieId=${movieId}`);
+export const getSessions = async (movieId?: number) => {
+  // Don't add movieId parameter when it's undefined
+  const url = movieId !== undefined ? `/api/sessions?movieId=${movieId}` : '/api/sessions';
+  const response = await axios.get(url);
   return response.data;
 };
 
@@ -46,35 +48,9 @@ export const getSeat = async (id: number) => {
   return response.data;
 };
 
-export const reserveSeat = async (id: number, customerData: { name: string; email: string }) => {
-  console.log(`API: Reserving seat ${id} with data:`, customerData);
-  
-  // Ensure proper data format - use name and email
-  const formattedData = {
-    name: String(customerData.name).trim(),
-    email: String(customerData.email).trim()
-  };
-  
-  if (!formattedData.name || !formattedData.email) {
-    throw new Error('Customer name and email are required');
-  }
-  
-  try {
-    const response = await axios.put(
-      `${getBaseUrl()}/api/seats/${id}`, 
-      formattedData,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-    console.log(`API: Reservation successful for seat ${id}`, response.data);
-    return response.data;
-  } catch (error) {
-    console.error(`API: Reservation failed for seat ${id}:`, error);
-    throw error;
-  }
+export const reserveSeat = async (id: number, customerData: { customerName: string; customerPhone: string }) => {
+  const response = await axios.put(`${getBaseUrl()}/api/seats/${id}`, customerData);
+  return response.data;
 };
 
 // Auth
