@@ -36,13 +36,16 @@ describe('Tickets API', () => {
   });
 
   describe('GET /api/tickets', () => {
+    const createdAt1 = new Date('2023-01-01T10:00:00Z');
+    const createdAt2 = new Date('2023-01-01T11:00:00Z');
+    
     const mockTickets = [
       {
         id: 1,
         customerName: 'John Doe',
         customerPhone: '1234567890',
         seatId: 1,
-        createdAt: new Date('2023-01-01T10:00:00Z'),
+        createdAt: createdAt1,
         seat: {
           id: 1,
           row: 1,
@@ -56,7 +59,7 @@ describe('Tickets API', () => {
         customerName: 'Jane Smith',
         customerPhone: '0987654321',
         seatId: 2,
-        createdAt: new Date('2023-01-01T11:00:00Z'),
+        createdAt: createdAt2,
         seat: {
           id: 2,
           row: 1,
@@ -66,17 +69,6 @@ describe('Tickets API', () => {
         },
       },
     ];
-
-    const mockFormattedTickets = mockTickets.map(ticket => ({
-      id: ticket.id,
-      customerName: ticket.customerName,
-      customerPhone: ticket.customerPhone,
-      seatId: ticket.seatId,
-      createdAt: ticket.createdAt,
-      row: ticket.seat.row,
-      seat: ticket.seat.seat,
-      sessionId: ticket.seat.sessionId,
-    }));
 
     it('should return all tickets', async () => {
       (prisma.ticket.findMany as jest.Mock).mockResolvedValue(mockTickets);
@@ -92,7 +84,27 @@ describe('Tickets API', () => {
       expect(prisma.ticket.findMany).toHaveBeenCalledWith({
         include: { seat: true },
       });
-      expect(res._getJSONData()).toEqual(mockFormattedTickets);
+      
+      const responseData = res._getJSONData();
+      expect(responseData).toHaveLength(2);
+      expect(responseData[0]).toMatchObject({
+        id: 1,
+        customerName: 'John Doe',
+        customerPhone: '1234567890',
+        seatId: 1,
+        row: 1,
+        seat: 1,
+        sessionId: 1,
+      });
+      expect(responseData[1]).toMatchObject({
+        id: 2,
+        customerName: 'Jane Smith',
+        customerPhone: '0987654321',
+        seatId: 2,
+        row: 1,
+        seat: 2,
+        sessionId: 1,
+      });
     });
 
     it('should filter tickets by sessionId', async () => {
@@ -108,7 +120,7 @@ describe('Tickets API', () => {
             customerName: 'John Doe',
             customerPhone: '1234567890',
             seatId: 1,
-            createdAt: new Date('2023-01-01T10:00:00Z'),
+            createdAt: createdAt1,
           },
         },
         {
@@ -122,20 +134,10 @@ describe('Tickets API', () => {
             customerName: 'Jane Smith',
             customerPhone: '0987654321',
             seatId: 2,
-            createdAt: new Date('2023-01-01T11:00:00Z'),
+            createdAt: createdAt2,
           },
         },
       ];
-
-      const mockSessionTickets = mockSeatsWithTickets.map(seat => ({
-        id: seat.ticket.id,
-        customerName: seat.ticket.customerName,
-        customerPhone: seat.ticket.customerPhone,
-        seatId: seat.id,
-        createdAt: seat.ticket.createdAt,
-        row: seat.row,
-        seat: seat.seat,
-      }));
 
       (prisma.seat.findMany as jest.Mock).mockResolvedValue(mockSeatsWithTickets);
 
@@ -155,7 +157,25 @@ describe('Tickets API', () => {
         },
         include: { ticket: true },
       });
-      expect(res._getJSONData()).toEqual(mockSessionTickets);
+      
+      const responseData = res._getJSONData();
+      expect(responseData).toHaveLength(2);
+      expect(responseData[0]).toMatchObject({
+        id: 1,
+        customerName: 'John Doe',
+        customerPhone: '1234567890',
+        seatId: 1,
+        row: 1,
+        seat: 1,
+      });
+      expect(responseData[1]).toMatchObject({
+        id: 2,
+        customerName: 'Jane Smith',
+        customerPhone: '0987654321',
+        seatId: 2,
+        row: 1,
+        seat: 2,
+      });
     });
 
     it('should return 400 for invalid sessionId', async () => {

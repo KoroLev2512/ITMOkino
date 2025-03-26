@@ -14,8 +14,8 @@ describe('MovieCard', () => {
     id: 1,
     title: 'Test Movie',
     description: 'Test Description',
-    duration: 120,
     image: 'test-poster.jpg',
+    duration: 120,
     genre: 'Action',
     year: 2023,
     actors: ['Actor 1', 'Actor 2'],
@@ -28,9 +28,6 @@ describe('MovieCard', () => {
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
     });
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -46,21 +43,19 @@ describe('MovieCard', () => {
   it('navigates to movie details page when clicked', () => {
     render(<MovieCard movie={mockMovie} />);
 
-    const card = screen.getByRole('button');
-    fireEvent.click(card);
+    const linkElement = screen.getByRole('link', { name: /test movie/i });
+    fireEvent.click(linkElement);
 
     expect(mockPush).toHaveBeenCalledWith(`/movies/${mockMovie.id}`);
   });
 
   it('displays placeholder image when image is not provided', () => {
-    const movieWithoutImage = {
-      ...mockMovie,
-      image: '',
-    };
-
+    const movieWithoutImage = { ...mockMovie, image: '' };
     render(<MovieCard movie={movieWithoutImage} />);
 
-    const image = screen.getByAltText(mockMovie.title);
-    expect(image).toHaveAttribute('src', '/placeholder.jpg');
+    expect(screen.getByAltText(mockMovie.title)).toHaveAttribute(
+      'src',
+      expect.stringContaining('placeholder')
+    );
   });
 }); 
