@@ -8,7 +8,6 @@ const HomePage = () => {
         <div className={styles.wrapper}>
             <Text center children={"Welcome to itmokino"} className={styles.title}/>
             <MovieList/>
-            {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
         </div>
     );
 };

@@ -10,15 +10,15 @@ const initialState: OrderState = {
 }
 
 const orderSlice = createSlice({
-    name: 'orderSlice',
+    name: 'order',
     initialState,
     reducers: {
         addSeat(state, action: PayloadAction<Seat>) {
             console.log('Redux: Adding seat to order', action.payload);
             state.seats = [action.payload];
         },
-        deleteSeat(state, action: PayloadAction<Seat>) {
-            console.log('Redux: Deleting seat from order', action.payload);
+        removeSeat(state, action: PayloadAction<Seat>) {
+            console.log('Redux: Removing seat from order', action.payload);
             const {row, seat} = action.payload;
             state.seats = state.seats.filter((data) => data.seat !== seat && data.row !== row);
         },
@@ -27,7 +27,7 @@ const orderSlice = createSlice({
             state.seats = [];
         }
     }
-})
+});
 
-export const orderReducer = orderSlice.reducer;
-export const { addSeat, deleteSeat, clearOrder } = orderSlice.actions;
+export const { addSeat, removeSeat, clearOrder } = orderSlice.actions;
+export default orderSlice.reducer;

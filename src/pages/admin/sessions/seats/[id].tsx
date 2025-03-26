@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import axios from 'axios';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import styles from '../../admin.module.scss';
+import AdminLayout from '@/widgets/adminLayout';
 
 interface Seat {
   id: number;
@@ -9,237 +13,194 @@ interface Seat {
   seat: number;
   sessionId: number;
   isReserved: boolean;
-  hasTicket: boolean;
+  ticket?: {
+    id: number;
+    customerName: string;
+    customerPhone: string;
+  };
+  hasTicket?: boolean;
   customerName?: string;
   customerPhone?: string;
 }
 
-const SessionSeatsPage = () => {
+interface Session {
+  id: number;
+  movieId: number;
+  startTime: string;
+  movie: {
+    title: string;
+  };
+}
+
+interface Props {
+  sessionId: number;
+}
+
+export default function SessionSeats({ sessionId }: Props) {
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const { id } = router.query;
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [seats, setSeats] = useState<Seat[]>([]);
-  const [movieId, setMovieId] = useState<number | null>(null);
-  const [sessionInfo, setSessionInfo] = useState<{ time: string; movieTitle: string } | null>(null);
-  const [apiData, setApiData] = useState<any[]>([]);
-  const [generating, setGenerating] = useState(false);
+  const [sessionData, setSessionData] = useState<Session | null>(null);
   const [selectedSeat, setSelectedSeat] = useState<Seat | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check authentication
-    const token = localStorage.getItem('auth_token');
-    const userData = localStorage.getItem('user');
-    
-    if (!token || !userData) {
-      router.push('/login');
-      return;
+    if (status === 'unauthenticated') {
+      router.push('/api/auth/signin');
     }
-    
-    try {
-      const parsedUser = JSON.parse(userData);
-      if (!parsedUser.isAdmin) {
-        router.push('/');
-        return;
-      }
-    } catch (e) {
-      router.push('/login');
-      return;
-    }
-    
-    // Fetch seats for this session
-    if (id) {
-      loadData(Number(id));
-    }
-  }, [id, router]);
-  
-  const loadData = async (sessionId: number) => {
-    setLoading(true);
-    try {
-      // Use the new admin API endpoint to get all session and seat data in one request
-      const token = localStorage.getItem('auth_token');
-      if (!token) {
-        throw new Error('Authentication required');
-      }
+  }, [status, router]);
+
+  useEffect(() => {
+    const fetchSessionData = async () => {
+      if (!sessionId) return;
       
-      const response = await fetch(`/api/admin/session-seats/${sessionId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      try {
+        const response = await axios.get(`/api/admin/sessions/${sessionId}`);
+        setSessionData(response.data);
+      } catch (error) {
+        console.error('Error fetching session data:', error);
+        setError('Failed to load session data');
+      }
+    };
+
+    const fetchSeats = async () => {
+      if (!sessionId) return;
+      
+      setLoading(true);
+      try {
+        // Try to get seats from admin API first
+        let seatsData;
+        try {
+          const response = await axios.get(`/api/admin/session-seats/${sessionId}`);
+          seatsData = response.data;
+        } catch (adminError) {
+          // Fallback to regular API if admin API fails
+          console.log('Falling back to regular API for seats data');
+          const response = await axios.get(`/api/sessions/${sessionId}/seats`);
+          seatsData = response.data;
         }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch session seats data');
+        
+        // Process seats data to add hasTicket property
+        const processedSeats = seatsData.map((seat: Seat) => ({
+          ...seat,
+          hasTicket: !!seat.ticket,
+          customerName: seat.ticket?.customerName || null,
+          customerPhone: seat.ticket?.customerPhone || null
+        }));
+        
+        setSeats(processedSeats);
+        console.log('Loaded seats:', processedSeats.length);
+      } catch (error) {
+        console.error('Error fetching seats:', error);
+        setError('Failed to load seats data');
+      } finally {
+        setLoading(false);
       }
-      
-      const data = await response.json();
-      
-      // Set session info
-      setMovieId(data.session.movieId);
-      setSessionInfo({
-        time: data.session.time,
-        movieTitle: data.session.movieTitle
-      });
-      
-      // Set seats data
-      setApiData(data.seats);
-      
-      // If no seats data, create a message but don't generate fake data
-      if (data.seats.length === 0) {
-        setError('Нет данных о местах. Создайте места для этого сеанса.');
-        setSeats([]);
-      } else {
-        setError('');
-        setSeats(data.seats);
-      }
-    } catch (err) {
-      console.error('Error loading data:', err);
-      setError(`Failed to load data: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    };
+
+    fetchSessionData();
+    fetchSeats();
+  }, [sessionId]);
+
+  const handleGenerateSeats = async () => {
+    try {
+      setLoading(true);
+      await axios.post(`/api/admin/session-seats/${sessionId}/generate`);
+      // Refresh seats after generation
+      const response = await axios.get(`/api/admin/session-seats/${sessionId}`);
+      setSeats(response.data);
+      setError(null);
+    } catch (error) {
+      console.error('Error generating seats:', error);
+      setError('Failed to generate seats');
     } finally {
       setLoading(false);
     }
   };
 
-  const generateSeats = async () => {
-    if (!id) return;
-    
-    setGenerating(true);
-    setError('');
-    
-    try {
-      const token = localStorage.getItem('auth_token');
-      if (!token) {
-        throw new Error('Authentication required');
-      }
-      
-      // Generate 5 rows with 10 seats each
-      const result = await fetch('/api/seats/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          sessionId: Number(id),
-          rows: 5,
-          seatsPerRow: 10
-        })
-      });
-      
-      if (!result.ok) {
-        const errorData = await result.json();
-        throw new Error(errorData.message || 'Failed to generate seats');
-      }
-      
-      // Reload data
-      loadData(Number(id));
-    } catch (err: any) {
-      setError(err.message || 'Failed to generate seats');
-      console.error(err);
-    } finally {
-      setGenerating(false);
-    }
-  };
-  
-  const getStatusClass = (seat: Seat) => {
-    if (!seat.isReserved) return styles.availableSeat;
-    return seat.hasTicket ? styles.soldSeat : styles.reservedSeat;
-  };
-  
-  const getStatusLabel = (seat: Seat) => {
-    if (!seat.isReserved) return 'Доступно';
-    return seat.hasTicket ? 'Продано' : 'Забронировано';
-  };
-
   const handleSeatClick = (seat: Seat) => {
-    if (seat.isReserved) {
-      setSelectedSeat(seat);
-    }
+    setSelectedSeat(seat);
+    setIsModalOpen(true);
   };
 
-  const closeSeatDetails = () => {
+  const closeModal = () => {
+    setIsModalOpen(false);
     setSelectedSeat(null);
   };
-  
-  if (loading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+
+  // Get unique row numbers and sort them
+  const rowNumbers = Array.from(new Set(seats.map(seat => seat.row))).sort((a, b) => a - b);
+
+  // Function to get seats for a specific row
+  const getSeatsForRow = (rowNumber: number) => {
+    return seats
+      .filter(seat => seat.row === rowNumber)
+      .sort((a, b) => a.seat - b.seat);
+  };
+
+  // Function to determine seat status class
+  const getSeatStatusClass = (seat: Seat) => {
+    if (seat.hasTicket) return styles.soldSeat;
+    if (seat.isReserved) return styles.reservedSeat;
+    return styles.availableSeat;
+  };
+
+  if (status === 'loading' || loading) {
+    return <AdminLayout title="Loading...">Loading seats data...</AdminLayout>;
   }
-  
-  // Group seats by row
-  const seatsByRow = seats.reduce<Record<number, Seat[]>>((acc, seat) => {
-    if (!acc[seat.row]) {
-      acc[seat.row] = [];
-    }
-    acc[seat.row].push(seat);
-    return acc;
-  }, {});
-  
+
+  if (status === 'unauthenticated') {
+    return null; // Will redirect in useEffect
+  }
+
   return (
-    <div className={styles.adminContainer}>
-      <div className={styles.adminHeader}>
-        <h1>Места для сеанса</h1>
-        {sessionInfo && (
+    <AdminLayout title={`Seats for ${sessionData?.movie?.title || 'Session'}`}>
+      {error && <div className={styles.error}>{error}</div>}
+      
+      <div className={styles.sessionInfo}>
+        <h2>Session Details</h2>
+        {sessionData ? (
           <div>
-            <p>Фильм: {sessionInfo.movieTitle}</p>
-            <p>Время: {sessionInfo.time}</p>
+            <p><strong>Movie:</strong> {sessionData.movie.title}</p>
+            <p><strong>Start Time:</strong> {new Date(sessionData.startTime).toLocaleString()}</p>
+            <p><strong>Session ID:</strong> {sessionData.id}</p>
           </div>
+        ) : (
+          <p>Loading session details...</p>
         )}
       </div>
-      
-      {error && <div className={styles.errorMessage}>{error}</div>}
-      
-      {seats.length === 0 && (
-        <div className={styles.tableContainer}>
-          <h2>Создать места для сеанса</h2>
-          <p>Данный сеанс не имеет мест. Вы можете создать стандартный набор мест (5 рядов по 10 мест).</p>
-          <button 
-            onClick={generateSeats} 
-            className={styles.addButton}
-            disabled={generating}
-          >
-            {generating ? 'Создание мест...' : 'Создать места'}
-          </button>
-        </div>
-      )}
-      
+
       <div className={styles.seatsContainer}>
-        <h2>Места в зале</h2>
-        
-        {/* Debug information section */}
-        <div className={styles.debugInfo}>
-          <details>
-            <summary>Техническая информация (для отладки)</summary>
-            <pre>{JSON.stringify(apiData, null, 2)}</pre>
-          </details>
+        <div className={styles.controls}>
+          <h2>Session Seats</h2>
+          {seats.length === 0 && (
+            <button onClick={handleGenerateSeats} className={styles.addButton}>
+              Generate Seats
+            </button>
+          )}
+          <p>Total seats: {seats.length}</p>
+          <p>Reserved seats: {seats.filter(seat => seat.isReserved || seat.hasTicket).length}</p>
         </div>
-        
-        {Object.keys(seatsByRow).length === 0 ? (
-          <div className={styles.noData}>Нет данных о местах</div>
-        ) : (
+
+        {seats.length > 0 ? (
           <div className={styles.seatsGrid}>
-            <div className={styles.screen}>Экран</div>
+            <div className={styles.screen}>SCREEN</div>
             
-            {Object.entries(seatsByRow).map(([row, rowSeats]) => (
-              <div key={row} className={styles.seatRow}>
-                <div className={styles.rowNumber}>Ряд {row}</div>
+            {rowNumbers.map(rowNumber => (
+              <div key={rowNumber} className={styles.row}>
+                <div className={styles.rowNumber}>Row {rowNumber}</div>
                 <div className={styles.seats}>
-                  {rowSeats
-                    .sort((a, b) => a.seat - b.seat)
-                    .map(seat => (
-                      <div 
-                        key={seat.id} 
-                        className={`${styles.seat} ${getStatusClass(seat)}`}
-                        title={`Ряд ${seat.row}, Место ${seat.seat}: ${getStatusLabel(seat)}`}
-                        onClick={() => handleSeatClick(seat)}
-                      >
-                        <span className={styles.seatNumber}>{seat.seat}</span>
-                        <span className={styles.seatStatus}>{getStatusLabel(seat)}</span>
-                        {seat.isReserved && (
-                          <span className={styles.seatInfo}>i</span>
-                        )}
-                      </div>
-                    ))
-                  }
+                  {getSeatsForRow(rowNumber).map(seat => (
+                    <div
+                      key={seat.id}
+                      className={`${styles.seat} ${getSeatStatusClass(seat)}`}
+                      onClick={() => handleSeatClick(seat)}
+                    >
+                      {seat.seat}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -247,61 +208,79 @@ const SessionSeatsPage = () => {
             <div className={styles.legend}>
               <div className={styles.legendItem}>
                 <div className={`${styles.legendIndicator} ${styles.availableSeat}`}></div>
-                <span>Доступно</span>
+                <span>Available</span>
               </div>
               <div className={styles.legendItem}>
                 <div className={`${styles.legendIndicator} ${styles.reservedSeat}`}></div>
-                <span>Забронировано</span>
+                <span>Reserved</span>
               </div>
               <div className={styles.legendItem}>
                 <div className={`${styles.legendIndicator} ${styles.soldSeat}`}></div>
-                <span>Продано</span>
+                <span>Sold</span>
               </div>
             </div>
           </div>
+        ) : (
+          <p>No seats found for this session.</p>
         )}
       </div>
-      
-      {selectedSeat && (
-        <div className={styles.seatDetailsModal}>
-          <div className={styles.seatDetailsContent}>
-            <h3>Информация о бронировании</h3>
-            <p><strong>Ряд:</strong> {selectedSeat.row}</p>
-            <p><strong>Место:</strong> {selectedSeat.seat}</p>
-            <p><strong>Статус:</strong> {getStatusLabel(selectedSeat)}</p>
+
+      {isModalOpen && selectedSeat && (
+        <div className={styles.seatDetailsModal} onClick={closeModal}>
+          <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+            <h3>Seat Details</h3>
+            <p><strong>Row:</strong> {selectedSeat.row}</p>
+            <p><strong>Seat:</strong> {selectedSeat.seat}</p>
+            <p><strong>Status:</strong> {
+              selectedSeat.hasTicket 
+                ? 'Sold' 
+                : selectedSeat.isReserved 
+                  ? 'Reserved' 
+                  : 'Available'
+            }</p>
             
-            {selectedSeat.customerName && (
+            {selectedSeat.hasTicket && (
               <>
-                <p><strong>Имя клиента:</strong> {selectedSeat.customerName}</p>
-                {selectedSeat.customerPhone && (
-                  <p><strong>Телефон:</strong> {selectedSeat.customerPhone}</p>
+                <h4>Customer Information</h4>
+                {selectedSeat.customerName && selectedSeat.customerPhone ? (
+                  <>
+                    <p><strong>Name:</strong> {selectedSeat.customerName}</p>
+                    <p><strong>Phone:</strong> {selectedSeat.customerPhone}</p>
+                  </>
+                ) : (
+                  <p>No customer information available.</p>
                 )}
               </>
             )}
             
-            {!selectedSeat.customerName && selectedSeat.isReserved && (
-              <p className={styles.noCustomerInfo}>Нет информации о клиенте</p>
-            )}
-            
             <button 
-              onClick={closeSeatDetails}
-              className={styles.closeButton}
+              onClick={closeModal}
+              className={styles.cancelButton}
             >
-              Закрыть
+              Close
             </button>
           </div>
         </div>
       )}
-      
-      <div className={styles.backLink}>
-        {movieId && (
-          <Link href={`/admin/sessions/${movieId}`}>
-            Назад к сеансам
-          </Link>
-        )}
-      </div>
-    </div>
-  );
-};
 
-export default SessionSeatsPage; 
+      <div className={styles.backLinks}>
+        <Link href={`/admin/sessions`} className={styles.cancelButton}>
+          Back to Sessions
+        </Link>
+        <Link href="/admin" className={styles.cancelButton}>
+          Back to Admin
+        </Link>
+      </div>
+    </AdminLayout>
+  );
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.params as { id: string };
+  
+  return {
+    props: {
+      sessionId: parseInt(id, 10),
+    },
+  };
+}; 

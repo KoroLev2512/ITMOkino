@@ -31,6 +31,7 @@ const TicketPage: React.FC = () => {
     const [bookingConfirmed, setBookingConfirmed] = useState(false);
     const [error, setError] = useState('');
     const [availableSeats, setAvailableSeats] = useState<Seat[]>([]);
+    const [seats, setSeats] = useState<Seat[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     // Create new seats for the session if needed
@@ -42,13 +43,19 @@ const TicketPage: React.FC = () => {
                     // First, check if there are available seats
                     const response = await axios.get(`/api/sessions/${sessionId}`);
                     if (response.data && response.data.seats) {
-                        // A seat is available if it doesn't have a ticket
-                        const availableSeats = response.data.seats.filter(
+                        // Store all seats from the session
+                        const allSeats = response.data.seats;
+                        
+                        // Filter out available seats (seats without tickets or not reserved)
+                        const availableSeats = allSeats.filter(
                             (seat: Seat) => !seat.ticket && !seat.isReserved
                         );
+                        
                         setAvailableSeats(availableSeats);
+                        setSeats(allSeats); // Store all seats to display both available and reserved
                         
                         console.log('Available seats:', availableSeats.length);
+                        console.log('Total seats:', allSeats.length);
                         
                         if (availableSeats.length === 0) {
                             console.log('No available seats found, creating new seats');
@@ -77,14 +84,17 @@ const TicketPage: React.FC = () => {
                                 const results = await Promise.all(createPromises);
                                 console.log('Created new seats:', results.length);
                                 
-                                // Refresh available seats
+                                // Refresh seats data
                                 const newResponse = await axios.get(`/api/sessions/${sessionId}`);
                                 if (newResponse.data && newResponse.data.seats) {
-                                    const newAvailableSeats = newResponse.data.seats.filter(
+                                    const allNewSeats = newResponse.data.seats;
+                                    const newAvailableSeats = allNewSeats.filter(
                                         (seat: Seat) => !seat.ticket && !seat.isReserved
                                     );
                                     setAvailableSeats(newAvailableSeats);
+                                    setSeats(allNewSeats);
                                     console.log('Available seats after creation:', newAvailableSeats.length);
+                                    console.log('Total seats after creation:', allNewSeats.length);
                                 }
                             } catch (err) {
                                 console.error('Error creating seats:', err);
@@ -139,10 +149,12 @@ const TicketPage: React.FC = () => {
         try {
             const response = await axios.get(`/api/sessions/${sessionId}`);
             if (response.data && response.data.seats) {
-                const availableSeats = response.data.seats.filter(
+                const allSeats = response.data.seats;
+                const availableSeats = allSeats.filter(
                     (seat: Seat) => !seat.ticket && !seat.isReserved
                 );
                 setAvailableSeats(availableSeats);
+                setSeats(allSeats);
             }
         } catch (err) {
             console.error('Error refreshing seats:', err);
@@ -314,12 +326,12 @@ const TicketPage: React.FC = () => {
                 <>
                     <SeatSelect 
                         sessionId={sessionId}
-                        availableSeats={availableSeats} // Pass available seats directly to prevent SeatSelect from fetching
+                        allSeats={seats} // Pass all seats, including reserved ones
                     />
                     {order?.seats?.length > 0 ? (
                         <div className={styles.info}>
                             <div className={styles.title}>Бронирование места</div>
-                <div className={styles.content}><InfoTable data={getOrderInfo(order)}/></div>
+                            <div className={styles.content}><InfoTable data={getOrderInfo(order)}/></div>
                             <button 
                                 className={styles.button}
                                 onClick={handleConfirmBooking}

@@ -25,6 +25,7 @@ interface Seat {
 interface SeatSelectProps {
     sessionId: string | string[] | undefined;
     availableSeats?: Seat[];
+    allSeats?: Seat[];
 }
 
 const Seat: React.FC<SeatProps> = ({ id, row, seat, isSelected, isReserved, onSelect }) => {
@@ -40,13 +41,14 @@ const Seat: React.FC<SeatProps> = ({ id, row, seat, isSelected, isReserved, onSe
                     onSelect(row, seat, id);
                 }
             }}
+            title={isReserved ? 'Место забронировано' : `Ряд ${row}, Место ${seat}`}
         >
             {seat}
         </div>
     );
 };
 
-export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeats }) => {
+export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeats, allSeats }) => {
     const [seats, setSeats] = useState<Seat[]>([]);
     const [selectedSeat, setSelectedSeat] = useState<{ row: number; seat: number; id?: number } | null>(null);
     const [loading, setLoading] = useState(true);
@@ -67,8 +69,17 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
             try {
                 setLoading(true);
                 
-                // If available seats are provided via props, use them
-                if (availableSeats) {
+                // If all seats are provided via props, use them
+                if (allSeats && allSeats.length > 0) {
+                    if (mountedRef.current) {
+                        setSeats(allSeats);
+                        setLoading(false);
+                    }
+                    return;
+                }
+                
+                // Fallback to available seats if provided
+                if (availableSeats && availableSeats.length > 0) {
                     if (mountedRef.current) {
                         setSeats(availableSeats);
                         setLoading(false);
@@ -76,7 +87,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
                     return;
                 }
                 
-                // Otherwise, fetch them
+                // Otherwise, fetch seats from the API
                 const response = await axios.get(`/api/sessions/${sessionId}`);
                 if (response.data && response.data.seats && mountedRef.current) {
                     setSeats(response.data.seats);
@@ -91,7 +102,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
         };
 
         loadSeats();
-    }, [sessionId, availableSeats]);
+    }, [sessionId, availableSeats, allSeats]);
 
     const handleSeatSelect = (row: number, seat: number, id?: number) => {
         if (selectedSeat && selectedSeat.row === row && selectedSeat.seat === seat) {
@@ -146,6 +157,24 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
                         </div>
                     </div>
                 ))}
+            </div>
+            
+            <div className={style.legend}>
+                <div className={style.legendTitle}>Статус мест:</div>
+                <div className={style.legendItems}>
+                    <div className={style.legendItem}>
+                        <div className={style.seatSample}></div>
+                        <span>Свободно</span>
+                    </div>
+                    <div className={style.legendItem}>
+                        <div className={`${style.seatSample} ${style.reserved}`}></div>
+                        <span>Забронировано</span>
+                    </div>
+                    <div className={style.legendItem}>
+                        <div className={`${style.seatSample} ${style.selected}`}></div>
+                        <span>Выбрано вами</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

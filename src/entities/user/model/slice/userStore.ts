@@ -1,35 +1,95 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
-import { immer } from "zustand/middleware/immer";
-import axios from "@/app/api/axios";
-import { UserStore, ROLES } from "../../types/userState";
-import { UserApiPaths } from "../../consts/apiPaths";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { ROLES } from '../../types/userState';
 
-export const useUserStore = create<UserStore>()(devtools(immer((set, getStore) => ({
+// Define the user state type
+interface User {
+	id?: number;
+	username?: string;
+	isAdmin?: boolean;
+	roles?: Array<{ id: number; value: string; description: string }>;
+}
+
+interface UserState {
+	user: User | null;
+	isLoading: boolean;
+	error: string | null;
+}
+
+// Initial state
+const initialState: UserState = {
 	user: null,
 	isLoading: false,
-	error: null,
-	getUser: async () => {
+	error: null
+};
+
+// Async thunks
+export const getUser = createAsyncThunk(
+	'user/getUser',
+	async (_, { rejectWithValue }) => {
 		try {
-			set({ isLoading: true });
-			const { data } = await axios.get(UserApiPaths.GET_ME);
-			set({ user: data, isLoading: false });
-		} catch (error) {
+			const response = await axios.get('/api/user');
+			return response.data;
+		} catch (error: any) {
 			if (error.response && error.response.status === 404) {
-				set({ user: { roles: [{ id: 0, value: ROLES.GUEST, description: "Guest user" }] }, isLoading: false, error: null });
-			} else {
-				set({ isLoading: false, user: null, error: error?.response });
+				return { roles: [{ id: 0, value: ROLES.GUEST, description: "Guest user" }] };
 			}
-		}
-	},
-	editUser: async (postData) => {
-		try {
-			set({ isLoading: true });
-			await axios.put(UserApiPaths.UPDATE_USER, postData);
-			set({ user: null, isLoading: false });
-			getStore().getUser();
-		} catch (error) {
-			set({ isLoading: false, user: null, error: error as string });
+			return rejectWithValue(error.response?.data || 'Failed to fetch user');
 		}
 	}
-}))));
+);
+
+export const editUser = createAsyncThunk(
+	'user/editUser',
+	async (userData: Partial<User>, { dispatch, rejectWithValue }) => {
+		try {
+			const response = await axios.put('/api/user', userData);
+			dispatch(getUser());
+			return response.data;
+		} catch (error: any) {
+			return rejectWithValue(error.response?.data || 'Failed to update user');
+		}
+	}
+);
+
+// User slice
+const userSlice = createSlice({
+	name: 'user',
+	initialState,
+	reducers: {
+		clearUser: (state) => {
+			state.user = null;
+			state.error = null;
+		}
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(getUser.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(getUser.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.user = action.payload;
+				state.error = null;
+			})
+			.addCase(getUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload as string;
+			})
+			.addCase(editUser.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(editUser.fulfilled, (state) => {
+				state.isLoading = false;
+			})
+			.addCase(editUser.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.payload as string;
+			});
+	}
+});
+
+export const { clearUser } = userSlice.actions;
+export default userSlice.reducer;

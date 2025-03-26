@@ -1,4 +1,6 @@
-export * from "./userSlice";
-export { moviesReducer } from "./moviesSlice";
-export { orderReducer } from "./orderSlice";
-export type { OrderState } from "./orderSlice";
+import { OrderState } from "./orderSlice";
+import userReducer from "@/entities/user/model/slice/userStore";
+import orderReducer from "./orderSlice";
+
+export { orderReducer, userReducer };
+export type { OrderState };

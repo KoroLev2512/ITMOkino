@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { moviesReducer, orderReducer } from "./slices";
+import { orderReducer, userReducer } from "./slices";
 import { movieApi } from "@/app/api/movieApi";
-// import { userApi } from "./services/userApi";
 
 export const store = configureStore({
     reducer: {
-        movies: moviesReducer,
+        user: userReducer,
         order: orderReducer,
         [movieApi.reducerPath]: movieApi.reducer,
     },
