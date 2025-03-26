@@ -161,7 +161,11 @@ describe('Sessions API', () => {
       };
 
       // Mock auth for admin endpoint
-      (req as AuthenticatedRequest).user = { isAdmin: true };
+      (req as AuthenticatedRequest).user = { 
+        id: 1, 
+        username: 'admin', 
+        isAdmin: true 
+      };
 
       await sessionHandler(req as NextApiRequest, res as NextApiResponse);
 
@@ -191,7 +195,11 @@ describe('Sessions API', () => {
       };
 
       // Mock auth for admin endpoint
-      (req as AuthenticatedRequest).user = { isAdmin: true };
+      (req as AuthenticatedRequest).user = { 
+        id: 1, 
+        username: 'admin', 
+        isAdmin: true 
+      };
 
       await sessionHandler(req as NextApiRequest, res as NextApiResponse);
 
@@ -208,7 +216,11 @@ describe('Sessions API', () => {
       };
 
       // Mock auth for admin endpoint
-      (req as AuthenticatedRequest).user = { isAdmin: true };
+      (req as AuthenticatedRequest).user = { 
+        id: 1, 
+        username: 'admin', 
+        isAdmin: true 
+      };
 
       await sessionHandler(req as NextApiRequest, res as NextApiResponse);
 
@@ -227,7 +239,11 @@ describe('Sessions API', () => {
       };
 
       // Mock auth for admin endpoint
-      (req as AuthenticatedRequest).user = { isAdmin: true };
+      (req as AuthenticatedRequest).user = { 
+        id: 1, 
+        username: 'admin', 
+        isAdmin: true 
+      };
 
       await sessionHandler(req as NextApiRequest, res as NextApiResponse);
 
@@ -247,7 +263,11 @@ describe('Sessions API', () => {
       };
 
       // Mock auth for admin endpoint
-      (req as AuthenticatedRequest).user = { isAdmin: true };
+      (req as AuthenticatedRequest).user = { 
+        id: 1, 
+        username: 'admin', 
+        isAdmin: true 
+      };
 
       await sessionHandler(req as NextApiRequest, res as NextApiResponse);
 

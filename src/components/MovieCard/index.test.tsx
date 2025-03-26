@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MovieCard from '.';
 import { useRouter } from 'next/router';
@@ -40,13 +40,11 @@ describe('MovieCard', () => {
     expect(screen.getByAltText(mockMovie.title)).toBeInTheDocument();
   });
 
-  it('navigates to movie details page when clicked', () => {
+  it('has correct link for movie details', () => {
     render(<MovieCard movie={mockMovie} />);
-
-    const linkElement = screen.getByRole('link', { name: /test movie/i });
-    fireEvent.click(linkElement);
-
-    expect(mockPush).toHaveBeenCalledWith(`/movies/${mockMovie.id}`);
+    
+    const linkElement = screen.getByRole('link');
+    expect(linkElement).toHaveAttribute('href', `/movies/${mockMovie.id}`);
   });
 
   it('displays placeholder image when image is not provided', () => {

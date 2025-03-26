@@ -1,6 +1,5 @@
 import React from 'react';
 import { Movie } from '@prisma/client';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,19 +8,13 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/movies/${movie.id}`);
-  };
-
   return (
     <Link href={`/movies/${movie.id}`}>
       <div className="relative w-full h-64 rounded-lg overflow-hidden">
         <Image
           src={movie.image || 'https://via.placeholder.com/300x450'}
           alt={movie.title}
-          fill={true}
+          fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: 'cover' }}
         />
