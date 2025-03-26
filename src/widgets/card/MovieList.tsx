@@ -3,8 +3,9 @@ import { IMovieCard } from "@/entities/movie";
 import { MovieCard } from "@/widgets/card/index";
 import classNames from "classnames";
 import styles from "./styles.module.scss";
-import {useSelector} from "react-redux";
-import {RootState} from "@/shared/store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/shared/store";
+import { useGetAllMoviesQuery } from "@/app/api/movie";
 
 interface MovieListProps {
     className?: string;
@@ -12,12 +13,10 @@ interface MovieListProps {
 
 export const MovieList = ({ className }: MovieListProps) => {
     const classes = classNames(styles.movieList, className);
-    // const { isLoading, data } = useGetAllMoviesQuery();
+    const { data, isLoading } = useGetAllMoviesQuery();
 
-    const data = useSelector((state: RootState) => state.movieApi.getAllMovies.data);
-
-    function renderList(data: IMovieCard[]) {
-        return data.map((movie) => (
+    function renderList(movies: IMovieCard[]) {
+        return movies.map((movie) => (
             <MovieCard
                 key={movie.id}
                 data={movie}
@@ -25,7 +24,7 @@ export const MovieList = ({ className }: MovieListProps) => {
         ));
     }
 
-    // if(isLoading) return <div>Loading...</div>;
+    if(isLoading) return <div>Loading...</div>;
     if(!data) return <div>No data</div>;
 
     return (

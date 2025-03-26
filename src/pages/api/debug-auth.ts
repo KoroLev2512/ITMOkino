@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json({
         status: 'error',
         error: 'Token verification failed',
-        details: verifyError.message
+        details: verifyError instanceof Error ? verifyError.message : String(verifyError)
       });
     }
   } catch (error) {
@@ -59,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json({
       status: 'error',
       error: 'Unexpected error',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 } 

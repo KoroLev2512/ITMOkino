@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 
 const DebugAuthPage = () => {
@@ -30,7 +30,11 @@ const DebugAuthPage = () => {
       setResult(response.data);
     } catch (err) {
       console.error('Error testing token:', err);
-      setError(err.message || 'An error occurred');
+      if (err instanceof Error) {
+        setError(err.message || 'An error occurred');
+      } else {
+        setError('An unknown error occurred');
+      }
     } finally {
       setLoading(false);
     }
@@ -66,7 +70,13 @@ const DebugAuthPage = () => {
       });
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.response?.data?.message || 'Login failed');
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || err.message || 'Login failed');
+      } else if (err instanceof Error) {
+        setError(err.message || 'Login failed');
+      } else {
+        setError('Login failed');
+      }
     } finally {
       setLoading(false);
     }

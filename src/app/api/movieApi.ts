@@ -2,31 +2,31 @@ import {BaseQueryMeta, BaseQueryResult, createApi, fetchBaseQuery} from "@reduxj
 
 export const movieApi = createApi({
     reducerPath: "movieApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3001/" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "/" }),
     endpoints: (builder) => ({
         getAllMovies: builder.query({
-            query: () => "movies",
+            query: () => "api/movies",
         }),
         getMovieById: builder.query({
-            query: (id) => `movies?id/${id}`,
+            query: (id) => `api/movies/${id}`,
         }),
         createMovie: builder.mutation({
             query: (movie) => ({
-                url: "movies",
+                url: "api/movies",
                 method: "POST",
                 body: movie,
             }),
         }),
         updateMovie: builder.mutation({
             query: (movie) => ({
-                url: `movies/${movie.id}`,
+                url: `api/movies/${movie.id}`,
                 method: "PUT",
                 body: movie,
             }),
         }),
         deleteMovie: builder.mutation({
             query: (id: string) => ({
-                url: `movies/${id}`,
+                url: `api/movies/${id}`,
                 method: "DELETE",
             }),
         }),

@@ -2,12 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 import { withAdminAuth, AuthenticatedRequest } from '../../../lib/auth';
 
-async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+async function handler(req: AuthenticatedRequest, res: NextApiResponse): Promise<void> {
   const { id } = req.query;
   const ticketId = parseInt(id as string);
 
   if (isNaN(ticketId)) {
-    return res.status(400).json({ message: 'Invalid ticket ID' });
+    res.status(400).json({ message: 'Invalid ticket ID' });
+    return;
   }
 
   // GET - Admin route to get a specific ticket
@@ -29,13 +30,16 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       });
 
       if (!ticket) {
-        return res.status(404).json({ message: 'Ticket not found' });
+        res.status(404).json({ message: 'Ticket not found' });
+        return;
       }
 
-      return res.status(200).json(ticket);
+      res.status(200).json(ticket);
+      return;
     } catch (error) {
       console.error('Error fetching ticket:', error);
-      return res.status(500).json({ message: 'Failed to fetch ticket' });
+      res.status(500).json({ message: 'Failed to fetch ticket' });
+      return;
     }
   }
 
@@ -49,7 +53,8 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       });
 
       if (!ticket) {
-        return res.status(404).json({ message: 'Ticket not found' });
+        res.status(404).json({ message: 'Ticket not found' });
+        return;
       }
 
       // Update the seat to not be reserved
@@ -61,14 +66,16 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
       // Delete the ticket
       await prisma.ticket.delete({ where: { id: ticketId } });
 
-      return res.status(204).end();
+      res.status(204).end();
+      return;
     } catch (error) {
       console.error('Error deleting ticket:', error);
-      return res.status(500).json({ message: 'Failed to delete ticket' });
+      res.status(500).json({ message: 'Failed to delete ticket' });
+      return;
     }
   }
 
-  return res.status(405).json({ message: 'Method not allowed' });
+  res.status(405).json({ message: 'Method not allowed' });
 }
 
 // Admin-only endpoint

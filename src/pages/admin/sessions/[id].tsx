@@ -77,7 +77,7 @@ const AdminMovieSessionsPage = () => {
       } catch (movieErr) {
         console.error('Error loading movie:', movieErr);
         setDebugInfo({ type: 'movie_error', error: movieErr, movieId });
-        setError(`Failed to load movie data: ${movieErr.message || 'Unknown error'}`);
+        setError(`Failed to load movie data: ${movieErr instanceof Error ? movieErr.message : 'Unknown error'}`);
         setLoading(false);
         return;
       }
@@ -97,14 +97,14 @@ const AdminMovieSessionsPage = () => {
       } catch (sessionsErr) {
         console.error('Error loading sessions:', sessionsErr);
         setDebugInfo({ type: 'sessions_error', error: sessionsErr });
-        setError(`Failed to load sessions: ${sessionsErr.message || 'Unknown error'}`);
+        setError(`Failed to load sessions: ${sessionsErr instanceof Error ? sessionsErr.message : 'Unknown error'}`);
         // We still want to show the page with the movie info, just no sessions
         setSessions([]);
       }
     } catch (err) {
       console.error('General error in loadData:', err);
       setDebugInfo({ type: 'general_error', error: err });
-      setError(`Failed to load data: ${err.message || 'Unknown error'}`);
+      setError(`Failed to load data: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -137,7 +137,7 @@ const AdminMovieSessionsPage = () => {
         setSessions(updatedSessions);
       }
     } catch (err) {
-      setError(`Failed to create session: ${err.message || 'Unknown error'}`);
+      setError(`Failed to create session: ${err instanceof Error ? err.message : 'Unknown error'}`);
       console.error(err);
     }
   };
@@ -158,7 +158,7 @@ const AdminMovieSessionsPage = () => {
       // Remove from local state
       setSessions(sessions.filter(session => session.id !== sessionId));
     } catch (err) {
-      setError(`Failed to delete session: ${err.message || 'Unknown error'}`);
+      setError(`Failed to delete session: ${err instanceof Error ? err.message : 'Unknown error'}`);
       console.error(err);
     }
   };
@@ -205,7 +205,7 @@ const AdminMovieSessionsPage = () => {
       setEditingSession(null);
       setEditSessionTime('');
     } catch (err) {
-      setError(`Failed to update session: ${err.message || 'Unknown error'}`);
+      setError(`Failed to update session: ${err instanceof Error ? err.message : 'Unknown error'}`);
       console.error(err);
     }
   };
