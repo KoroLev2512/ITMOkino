@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MovieList from './index';
+import MovieList from '.';
 import { Movie } from '@prisma/client';
 
 describe('MovieList', () => {

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import SeatSelect from './index';
+import SeatSelect from '.';
 import { Seat } from '@prisma/client';
 
 describe('SeatSelect', () => {
@@ -25,17 +25,28 @@ describe('SeatSelect', () => {
     expect(screen.getAllByRole('button')).toHaveLength(4);
   });
 
-  it('disables reserved seats', () => {
+  it('displays correct seat numbers for each row', () => {
     render(<SeatSelect seats={mockSeats} onSelect={mockOnSelect} />);
 
-    const reservedSeat = screen.getByRole('button', { name: /ряд 1 место 2/i });
+    const row1Buttons = screen.getAllByRole('button', { name: /ряд 1/ });
+    const row2Buttons = screen.getAllByRole('button', { name: /ряд 2/ });
+
+    expect(row1Buttons).toHaveLength(2);
+    expect(row2Buttons).toHaveLength(2);
+  });
+
+  it('handles reserved seats correctly', () => {
+    render(<SeatSelect seats={mockSeats} onSelect={mockOnSelect} />);
+
+    const reservedSeat = screen.getByRole('button', { name: /ряд 1 место 2/ });
     expect(reservedSeat).toBeDisabled();
+    expect(reservedSeat).toHaveClass('bg-gray-300', 'cursor-not-allowed');
   });
 
   it('calls onSelect with seat ID when clicking an available seat', () => {
     render(<SeatSelect seats={mockSeats} onSelect={mockOnSelect} />);
 
-    const availableSeat = screen.getByRole('button', { name: /ряд 1 место 1/i });
+    const availableSeat = screen.getByRole('button', { name: /ряд 1 место 1/ });
     fireEvent.click(availableSeat);
 
     expect(mockOnSelect).toHaveBeenCalledWith(1);
@@ -44,16 +55,9 @@ describe('SeatSelect', () => {
   it('does not call onSelect when clicking a reserved seat', () => {
     render(<SeatSelect seats={mockSeats} onSelect={mockOnSelect} />);
 
-    const reservedSeat = screen.getByRole('button', { name: /ряд 1 место 2/i });
+    const reservedSeat = screen.getByRole('button', { name: /ряд 1 место 2/ });
     fireEvent.click(reservedSeat);
 
     expect(mockOnSelect).not.toHaveBeenCalled();
-  });
-
-  it('displays correct seat numbers for each row', () => {
-    render(<SeatSelect seats={mockSeats} onSelect={mockOnSelect} />);
-
-    expect(screen.getByText('Место 1')).toBeInTheDocument();
-    expect(screen.getByText('Место 2')).toBeInTheDocument();
   });
 }); 

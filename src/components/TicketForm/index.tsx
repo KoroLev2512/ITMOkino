@@ -52,6 +52,14 @@ const TicketForm: React.FC<TicketFormProps> = ({ session, selectedSeat, onSubmit
     }
   };
 
+  const handleBlur = (field: keyof typeof formData) => {
+    const newErrors = { ...errors };
+    if (field === 'email' && formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Неверный формат email';
+    }
+    setErrors(newErrors);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
@@ -84,6 +92,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ session, selectedSeat, onSubmit
           id="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          onBlur={() => handleBlur('email')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
         />
         {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}

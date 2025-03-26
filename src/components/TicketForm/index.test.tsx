@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TicketForm from './index';
+import TicketForm from '.';
 import { useRouter } from 'next/router';
 
 // Mock next/router
@@ -12,7 +12,7 @@ describe('TicketForm', () => {
   const mockSession = {
     id: 1,
     movieId: 1,
-    startTime: new Date(),
+    time: '10:00',
     movie: {
       title: 'Test Movie',
       duration: 120,

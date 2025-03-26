@@ -2,12 +2,13 @@ import React from 'react';
 import { Movie } from '@prisma/client';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface MovieCardProps {
   movie: Movie;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard = ({ movie }: MovieCardProps) => {
   const router = useRouter();
 
   const handleClick = () => {
@@ -15,27 +16,21 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className="flex flex-col bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-    >
-      <div className="relative h-48 w-full">
+    <Link href={`/movies/${movie.id}`}>
+      <div className="relative w-full h-64 rounded-lg overflow-hidden">
         <Image
           src={movie.image || '/placeholder.jpg'}
           alt={movie.title}
-          layout="fill"
-          objectFit="cover"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ objectFit: 'cover' }}
         />
       </div>
-      <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2">{movie.title}</h3>
-        <p className="text-gray-600 mb-2">{movie.description}</p>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-500">{movie.duration} мин</span>
-          <span className="text-gray-500">{movie.genre}</span>
-        </div>
+      <div className="mt-2">
+        <h3 className="text-lg font-semibold">{movie.title}</h3>
+        <p className="text-gray-600">{movie.description}</p>
       </div>
-    </button>
+    </Link>
   );
 };
 

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MovieCard from './index';
+import MovieCard from '.';
 import { useRouter } from 'next/router';
 import { Movie } from '@prisma/client';
 

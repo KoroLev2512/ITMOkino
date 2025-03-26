@@ -27,6 +27,7 @@ const SeatSelect: React.FC<SeatSelectProps> = ({ seats, onSelect }) => {
                     ? 'bg-gray-300 cursor-not-allowed'
                     : 'bg-green-500 hover:bg-green-600'
                 } text-white`}
+                aria-label={`Ряд ${rowIndex + 1} место ${seatIndex + 1}`}
               >
                 {seatIndex + 1}
               </button>
