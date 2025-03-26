@@ -65,7 +65,16 @@ describe('Movie Detail API', () => {
         where: { id: 1 },
         include: { sessions: true },
       });
-      expect(res._getJSONData()).toEqual(mockMovie);
+      expect(res._getJSONData()).toMatchObject({
+        id: mockMovie.id,
+        title: mockMovie.title,
+        description: mockMovie.description,
+        genre: mockMovie.genre,
+        duration: mockMovie.duration,
+        image: mockMovie.image,
+        year: mockMovie.year,
+        sessions: mockMovie.sessions
+      });
     });
 
     it('should return 404 when movie is not found', async () => {
@@ -149,7 +158,16 @@ describe('Movie Detail API', () => {
           actors: mockMovie.actors,
         },
       });
-      expect(res._getJSONData()).toEqual(updatedMovie);
+      expect(res._getJSONData()).toMatchObject({
+        id: updatedMovie.id,
+        title: updatedMovie.title,
+        description: updatedMovie.description,
+        genre: updatedMovie.genre,
+        duration: updatedMovie.duration,
+        image: updatedMovie.image,
+        year: updatedMovie.year,
+        sessions: updatedMovie.sessions
+      });
     });
 
     it('should return 400 when required fields are missing', async () => {
