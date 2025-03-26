@@ -42,11 +42,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(`API seats/[id]: Attempting to reserve seat ID: ${seatId}`);
       console.log('Request body:', req.body);
       
-      const { name, email } = req.body;
+      const { customerName, customerPhone } = req.body;
       
-      if (!name || !email) {
+      if (!customerName || !customerPhone) {
         console.error(`API seats/[id]: Missing customer data for seat ${seatId}:`, req.body);
-        return res.status(400).json({ message: 'Customer name and email are required' });
+        return res.status(400).json({ message: 'Customer name and phone are required' });
       }
       
       // Check if seat exists
@@ -75,8 +75,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           isReserved: true,
           ticket: {
             create: {
-              customerName: name,
-              customerPhone: email
+              customerName: customerName,
+              customerPhone: customerPhone
             }
           }
         },
@@ -90,7 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: { seatId: seatId }
       });
       
-      console.log(`Successfully reserved seat ${seatId} for ${name} (${email})`);
+      console.log(`Successfully reserved seat ${seatId} for ${customerName} (${customerPhone})`);
       
       return res.status(200).json({ 
         ...updatedSeat, 
