@@ -88,7 +88,7 @@ const MoviePage = () => {
     if (loading) {
         return (
             <div>
-                <Header title="ITMO Кино" />
+                <Header title="ITMO" />
                 <div className={styles.loading}>
                     <Loader />
                 </div>
@@ -99,7 +99,7 @@ const MoviePage = () => {
     if (error || !movie) {
         return (
             <div>
-                <Header title="ITMO Кино" />
+                <Header title="ITMO" />
                 <div className={styles.error}>
                     <Text center className={styles.errorText}>К сожалению, этот фильм не найден</Text>
                     <Link href={'/'}>
@@ -112,7 +112,7 @@ const MoviePage = () => {
 
     return (
         <div>
-            <Header title="ITMO Кино" />
+            <Header title="ITMO" />
             <div className={styles.wrapper}>
                 <div className={styles.content}>
                     <div className={styles.leftColumn}>

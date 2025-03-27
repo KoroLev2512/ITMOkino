@@ -129,7 +129,7 @@ const MainPage: NextPage = () => {
     if (loading) {
         return (
             <div>
-                <Header title="ITMO Кино" />
+                <Header title="ITMO" />
                 <div style={styles.loadingContainer}>
                     <Loader />
                 </div>
@@ -140,7 +140,7 @@ const MainPage: NextPage = () => {
     if (error || movies.length === 0) {
         return (
             <div>
-                <Header title="ITMO Кино" />
+                <Header title="ITMO" />
                 <div style={styles.errorContainer}>
                     <div style={styles.error}>
                         <h2 style={styles.errorTitle}>Произошла ошибка при загрузке фильмов</h2>
@@ -156,7 +156,7 @@ const MainPage: NextPage = () => {
 
     return (
         <div>
-            <Header title="ITMO Кино" />
+            <Header title="ITMO" />
             <div style={styles.container}>
                 <h1 style={styles.pageTitle}>Афиша кинотеатра</h1>
                 <div style={styles.moviesGrid}>
