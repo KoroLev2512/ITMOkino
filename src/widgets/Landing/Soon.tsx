@@ -29,13 +29,13 @@ export const Soon = () => {
                 transition={{ duration: 1, delay: 0.4 }}
             >
                 <div className={styles.buttons}>
-                    <Link href='https://itmo.events/events/108557'
+                    <Link href='/movie/1'
                           className={styles.registration_button}
                           target="_blank"
                           rel="noopener noreferrer">
                         16:30
                     </Link>
-                    <Link href='https://itmo.events/events/110111'
+                    <Link href='movie/1'
                           className={styles.registration_button}
                           target="_blank"
                           rel="noopener noreferrer">

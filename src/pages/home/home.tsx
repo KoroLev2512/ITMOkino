@@ -1,9 +1,13 @@
+import {Text} from "@/shared/ui/Text";
+import {MovieList} from "@/widgets/card";
 import styles from './home.styles.module.scss';
 
 export const HomePage = () => {
     return (
         <div className={styles.wrapper}>
-            <Text center children={"Welcome to itmokino"} className={styles.title}/>
+            <Text center className={styles.title}>
+                Welcome to itmokino
+            </Text>
             <MovieList/>
         </div>
     );

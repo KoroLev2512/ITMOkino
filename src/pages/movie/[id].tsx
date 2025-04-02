@@ -5,7 +5,6 @@ import Link from "next/link";
 import { SessionTime } from "@/widgets/sessionTime";
 // import { InfoTable } from "@/widgets/infoTable";
 // import { helpers } from "@/shared/utils/helpers";
-import {Session} from "@/entities/movie/types";
 import styles from './movie.styles.module.scss';
 import { Session } from "@/entities/movie/types";
 import { getMovie, getSessions } from "@/lib/api";
@@ -132,9 +131,9 @@ const MoviePage = () => {
                         </div>
                     </div>
                     <div className={styles.rightColumn}>
-                        <div className={styles.info}>
-                            <InfoTable data={helpers.getInfoData(movie)} />
-                        </div>
+                        {/*<div className={styles.info}>*/}
+                        {/*    <InfoTable data={helpers.getInfoData(movie)} />*/}
+                        {/*</div>*/}
                         <div className={styles.session}>
                             <h3 className={styles.subtitle}>Сеансы</h3>
                             <div className={styles.sessionTimesList}>

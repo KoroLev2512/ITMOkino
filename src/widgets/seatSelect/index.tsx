@@ -116,7 +116,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
             }
             
             setSelectedSeat({ row, seat, id });
-            dispatch(addSeat({ row, seat, seatId: id }));
+            dispatch(addSeat({ row, seat}));
         }
     };
 
