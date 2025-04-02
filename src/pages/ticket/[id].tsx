@@ -169,12 +169,12 @@ const TicketPage: React.FC = () => {
         
         try {
             const selectedSeat = order.seats[0];
-            console.log('Booking seat:', { row: selectedSeat.row, seat: selectedSeat.seat, seatId: selectedSeat.seat });
+            console.log('Booking seat:', { row: selectedSeat.row, seat: selectedSeat.seat, seatId: selectedSeat.seatId });
             
             // First check if the selected seat is actually available
-            if (selectedSeat.seat) {
+            if (selectedSeat.seatId) {
                 // Check if this seat ID exists in availableSeats
-                const seatStillAvailable = availableSeats.some(seat => seat.id === selectedSeat.seat);
+                const seatStillAvailable = availableSeats.some(seat => seat.id === selectedSeat.seatId);
                 
                 if (!seatStillAvailable) {
                     setError(`Место Ряд ${selectedSeat.row}, Место ${selectedSeat.seat} уже забронировано. Пожалуйста, выберите другое место.`);
@@ -194,7 +194,7 @@ const TicketPage: React.FC = () => {
                 
                 try {
                     // Reserve the selected seat
-                    const result = await reserveSeat(selectedSeat.seat, customerData);
+                    const result = await reserveSeat(selectedSeat.seatId, customerData);
                     console.log("Reservation successful:", result);
                     
                     // Success - update UI
