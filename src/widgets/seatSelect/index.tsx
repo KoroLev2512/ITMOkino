@@ -65,10 +65,10 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
     useEffect(() => {
         const loadSeats = async () => {
             if (!sessionId) return;
-            
+
             try {
                 setLoading(true);
-                
+
                 // If all seats are provided via props, use them
                 if (allSeats && allSeats.length > 0) {
                     if (mountedRef.current) {
@@ -77,7 +77,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
                     }
                     return;
                 }
-                
+
                 // Fallback to available seats if provided
                 if (availableSeats && availableSeats.length > 0) {
                     if (mountedRef.current) {
@@ -86,7 +86,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
                     }
                     return;
                 }
-                
+
                 // Otherwise, fetch seats from the API
                 const response = await axios.get(`/api/sessions/${sessionId}`);
                 if (response.data && response.data.seats && mountedRef.current) {
@@ -114,7 +114,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
             if (selectedSeat) {
                 dispatch(removeSeat({ row: selectedSeat.row, seat: selectedSeat.seat }));
             }
-            
+
             setSelectedSeat({ row, seat, id });
             dispatch(addSeat({ row, seat, seatId: id}));
         }
@@ -122,7 +122,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
 
     // Get unique row numbers from seats array
     const rowNumbers = [...new Set(seats.map(seat => seat.row))].sort((a, b) => a - b);
-    
+
     if (loading) {
         return <div className={style.loading}>Загрузка схемы зала...</div>;
     }
@@ -158,7 +158,7 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
                     </div>
                 ))}
             </div>
-            
+
             <div className={style.legend}>
                 <div className={style.legendTitle}>Статус мест:</div>
                 <div className={style.legendItems}>
@@ -178,4 +178,4 @@ export const SeatSelect: React.FC<SeatSelectProps> = ({ sessionId, availableSeat
             </div>
         </div>
     );
-}; 
+};
