@@ -1,4 +1,5 @@
 export interface Seat {
+    seatId: number;
     row: number;
     seat: number;
 }
