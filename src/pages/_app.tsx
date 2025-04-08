@@ -21,46 +21,37 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "@/shared/store/store";
 import { useRouter } from "next/router";
+import { useAppStore } from "@/lib/appStore";
 import "@/app/styles/globals.scss";
 
-// Component that handles auth state
 const AuthStateHandler = ({ children }: { children: React.ReactNode }) => {
 	const router = useRouter();
 	const [isAuthChecked, setIsAuthChecked] = useState(false);
 	
 	useEffect(() => {
-		// Check if we're on the client side
 		if (typeof window !== 'undefined') {
-			// List of paths that don't require auth check
 			const publicPaths = ['/login', '/register', '/'];
 			const isPublicPath = publicPaths.some(path => 
 				router.pathname === path || router.pathname.startsWith('/movie')
 			);
 			
-			// Check if current path is admin-only
 			const isAdminPath = router.pathname.startsWith('/admin');
-			
-			// Check if it's a protected path that requires auth (ticket pages)
 			const isProtectedPath = router.pathname.startsWith('/ticket');
 			
-			// If it's a public path, no need to check auth
 			if (isPublicPath) {
 				setIsAuthChecked(true);
 				return;
 			}
 			
-			// For admin paths or protected paths like ticket, check if user is authenticated
 			if (isAdminPath || isProtectedPath) {
 				const token = localStorage.getItem('auth_token');
 				const userData = localStorage.getItem('user');
 				
-				// If no token or user data, redirect to login
 				if (!token || !userData) {
 					router.push('/login');
 					return;
 				}
 				
-				// Check if user is admin (only for admin paths)
 				if (isAdminPath) {
 					try {
 						const user = JSON.parse(userData);
@@ -78,12 +69,10 @@ const AuthStateHandler = ({ children }: { children: React.ReactNode }) => {
 			
 			setIsAuthChecked(true);
 		} else {
-			// On server side, don't block rendering
 			setIsAuthChecked(true);
 		}
 	}, [router.pathname]);
 	
-	// Show a loading state while checking auth
 	if (!isAuthChecked) {
 		return <div className="loading-auth">Loading...</div>;
 	}
@@ -91,10 +80,23 @@ const AuthStateHandler = ({ children }: { children: React.ReactNode }) => {
 	return <>{children}</>;
 };
 
+const ThemeManager = () => {
+	const isDarkMode = useAppStore(state => state.isDarkMode);
+
+	useEffect(() => {
+		const root = document.documentElement;
+		root.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+	}, [isDarkMode]);
+
+	return null;
+};
+
+
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<Provider store={store}>
 			<AuthStateHandler>
+				<ThemeManager />
 				<Component {...pageProps} />
 			</AuthStateHandler>
 		</Provider>
