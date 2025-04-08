@@ -7,7 +7,6 @@ import { Header } from "@/widgets/header";
 import Loader from "@/shared/loader";
 import Link from "next/link";
 
-// Define the styles object since we're having issues with the CSS module
 const styles = {
   container: { 
     maxWidth: '1200px', 

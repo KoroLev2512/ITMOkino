@@ -34,7 +34,6 @@ const TicketPage: React.FC = () => {
     const [seats, setSeats] = useState<Seat[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Create new seats for the session if needed
     useEffect(() => {
         const createSeatsIfNeeded = async () => {
             if (sessionId) {
@@ -46,7 +45,6 @@ const TicketPage: React.FC = () => {
                         // Store all seats from the session
                         const allSeats = response.data.seats;
                         
-                        // Filter out available seats (seats without tickets or not reserved)
                         const availableSeats = allSeats.filter(
                             (seat: Seat) => !seat.ticket && !seat.isReserved
                         );
@@ -60,14 +58,11 @@ const TicketPage: React.FC = () => {
                         if (availableSeats.length === 0) {
                             console.log('No available seats found, creating new seats');
                             
-                            // Create multiple new seats with different row and seat numbers
                             const createPromises: Promise<any>[] = [];
                             
-                            // Create 5 seats with different positions - ensuring proper number values
                             for (let i = 0; i < 5; i++) {
-                                // Ensure row and seat are numbers between 1-9 for simplicity
-                                const rowNum = 1; // Use row 1 for simplicity
-                                const seatNum = i + 1; // Seats 1-5
+                                const rowNum = 1;
+                                const seatNum = i + 1;
                                 
                                 console.log(`Creating seat with row: ${rowNum}, seat: ${seatNum}`);
                                 
