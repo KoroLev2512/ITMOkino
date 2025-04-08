@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import styles from './styles.module.scss';
 import { Text } from "@/shared/ui/Text";
+import ColorMode from "@/shared/ui/Button/DarkThemeButton";
+import {useRouter} from "next/router";
 
 export type HeaderProps = {
     title: string;
@@ -9,6 +11,8 @@ export type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+    const router = useRouter();
+    const isHomePage = router.pathname === "/";
     const [user, setUser] = useState<{ id: number; username: string; isAdmin: boolean } | null>(null);
     
     useEffect(() => {
@@ -33,11 +37,15 @@ export const Header = (props: HeaderProps) => {
     return (
         <header className={styles.wrapper}>
             <div className={styles.leftSection}>
-                <Link href='/'>
-                    <button className={styles.backButton}>
-                        Главная
-                    </button>
-                </Link>
+                {isHomePage ? (
+                    <ColorMode />
+                ) : (
+                    <Link href='/'>
+                        <button className={styles.backButton}>
+                            Главная
+                        </button>
+                    </Link>
+                )}
             </div>
             
             <Text center className={styles.title}>
