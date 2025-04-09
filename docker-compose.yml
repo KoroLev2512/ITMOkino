@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      - POSTGRES_DB=cinema
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+      POSTGRES_DB: cinema
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
     volumes:
@@ -16,17 +16,16 @@ services:
       - app_network
 
   app:
-    image: ghcr.io/icerzack/seats-booking:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "3000:3000"
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL: postgresql://admin:admin@localhost:5432/cinema
-      - JWT_SECRET: cinema-app-secret-jwt-key-2025
+      DATABASE_URL: "postgresql://admin:admin@postgres:5432/cinema"  # Используйте имя сервиса (postgres) вместо localhost
+      JWT_SECRET: "cinema-app-secret-jwt-key-2025"
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
