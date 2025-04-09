@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=cinema
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - app_network
+
+  app:
+    image: ghcr.io/icerzack/seats-booking:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL: postgresql://admin:admin@localhost:5432/cinema
+      - JWT_SECRET: cinema-app-secret-jwt-key-2025
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
