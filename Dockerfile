@@ -5,14 +5,6 @@ COPY . .
 RUN npm install --include=dev
 RUN npm run build
 
-# Для разработки (опционально)
-FROM node:18-alpine
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm install
-COPY . .
-CMD ["npm", "run", "dev"]
-
 # Финальный образ
 FROM node:18-alpine
 WORKDIR /app
