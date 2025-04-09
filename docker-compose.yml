@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: "postgresql://admin:admin@postgres:5432/cinema"  # Используйте имя сервиса (postgres) вместо localhost
+      DATABASE_URL: "postgresql://admin:admin@postgres:5432/cinema"
       JWT_SECRET: "cinema-app-secret-jwt-key-2025"
     networks:
       - app_network
