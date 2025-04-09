@@ -14,4 +14,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/prisma ./prisma
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD npx prisma migrate deploy && npx prisma db seed && npm start
