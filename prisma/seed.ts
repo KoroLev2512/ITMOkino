@@ -53,7 +53,7 @@ async function main() {
         update: {},
         create: {
             username: 'admin',
-            password: '$2a$10$GQf5YhKfR6oRPZxzT.tMUObYqNNUSU0N9yTx5/TUqmEVJ.EREiCse', // "admin123" hashed
+            password: '$2a$10$8Mk26fLGgAzZ2ylUuooIwOof8txsrw2pdcKQWDuctXgpN9Q8wdhPa', // "admin" hashed
             isAdmin: true
         }
     });
