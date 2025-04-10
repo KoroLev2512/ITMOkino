@@ -16,7 +16,10 @@ services:
       - app_network
 
   app:
-    build: .
+    image: docker.io/efiml/app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
