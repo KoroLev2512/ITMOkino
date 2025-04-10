@@ -4,7 +4,7 @@
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid #e0e0e0;
-  background-color: white;
+  background-color: var(--secondary-background-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -29,11 +29,16 @@
 }
 
 .title {
+  font-family: Montserrat-Medium, serif;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 20px;
   font-weight: 500;
   color: #333;
-  flex: 1;
   text-align: center;
+  white-space: nowrap;
 }
 
 .username {

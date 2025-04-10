@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Link from "next/link";
-import styles from './styles.module.scss';
-import { Text } from "@/shared/ui/Text";
+import {Text} from "@/shared/ui/Text";
 import ColorMode from "@/shared/ui/Button/DarkThemeButton";
 import {useRouter} from "next/router";
+import styles from './styles.module.scss';
 
 export type HeaderProps = {
     title: string;
@@ -14,7 +14,7 @@ export const Header = (props: HeaderProps) => {
     const router = useRouter();
     const isHomePage = router.pathname === "/";
     const [user, setUser] = useState<{ id: number; username: string; isAdmin: boolean } | null>(null);
-    
+
     useEffect(() => {
         // Check if user is logged in
         const userData = localStorage.getItem('user');
@@ -26,19 +26,19 @@ export const Header = (props: HeaderProps) => {
             }
         }
     }, []);
-    
+
     const handleLogout = () => {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
         setUser(null);
         window.location.href = '/';
     };
-    
+
     return (
         <header className={styles.wrapper}>
             <div className={styles.leftSection}>
                 {isHomePage ? (
-                    <ColorMode />
+                    <ColorMode/>
                 ) : (
                     <Link href='/'>
                         <button className={styles.backButton}>
@@ -47,11 +47,11 @@ export const Header = (props: HeaderProps) => {
                     </Link>
                 )}
             </div>
-            
+
             <Text center className={styles.title}>
                 {props.title}
             </Text>
-            
+
             <div className={styles.rightSection}>
                 {user ? (
                     <>
@@ -63,8 +63,8 @@ export const Header = (props: HeaderProps) => {
                                 </button>
                             </Link>
                         )}
-                        <button 
-                            onClick={handleLogout} 
+                        <button
+                            onClick={handleLogout}
                             className={styles.logoutButton}
                         >
                             Выйти

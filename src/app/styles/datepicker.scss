@@ -5,7 +5,7 @@
   }
 
   &__day {
-    color: var(--main-color) !important;
+    color: var(--black-color) !important;
     &:hover {
       background-color: var(--secondary-gray-color) !important;
     }
@@ -33,7 +33,7 @@
   &__time {
     background-color: var(--secondary-background-color) !important;
     &-list-item {
-      color: var(--main-color) !important;
+      color: var(--black-color) !important;
       display: flex;
       align-items: center;
       justify-content: center;
