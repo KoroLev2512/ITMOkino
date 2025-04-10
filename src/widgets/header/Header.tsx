@@ -16,7 +16,6 @@ export const Header = (props: HeaderProps) => {
     const [user, setUser] = useState<{ id: number; username: string; isAdmin: boolean } | null>(null);
 
     useEffect(() => {
-        // Check if user is logged in
         const userData = localStorage.getItem('user');
         if (userData) {
             try {

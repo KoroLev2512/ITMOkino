@@ -30,7 +30,6 @@ const AdminDashboard = () => {
     
     setUser(parsedUser);
     
-    // Fetch movies
     loadMovies();
   }, [router]);
   
@@ -59,7 +58,7 @@ const AdminDashboard = () => {
       }
       
       await deleteMovie(id, token);
-      loadMovies(); // Reload movies after deletion
+      loadMovies();
     } catch (err) {
       setError('Failed to delete movie');
       console.error(err);
@@ -82,7 +81,9 @@ const AdminDashboard = () => {
         <h1>Панель администратора</h1>
         <div className={styles.userInfo}>
           {user?.username && <span>Пользователь: {user.username}</span>}
-          <button onClick={handleLogout} className={styles.logoutButton}>Выйти</button>
+          <button onClick={handleLogout} className={styles.logoutButton}>
+            Выйти
+          </button>
         </div>
       </div>
       

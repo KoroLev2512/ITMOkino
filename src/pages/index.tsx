@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { getMovies } from "@/lib/api";
 import { Movie } from "@/entities/movie";
 import { Header } from "@/widgets/header";
@@ -75,7 +74,7 @@ const styles = {
   },
   errorContainer: {
     maxWidth: '1200px',
-    margin: '0 auto',
+    margin: 'auto',
     padding: '20px'
   },
   error: {
@@ -102,7 +101,6 @@ const styles = {
 };
 
 const MainPage: NextPage = () => {
-    const router = useRouter();
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -139,7 +137,7 @@ const MainPage: NextPage = () => {
     if (error || movies.length === 0) {
         return (
             <div>
-                <Header title="ITMO" />
+                <Header title="ITMO KINO" />
                 <div style={styles.errorContainer}>
                     <div style={styles.error}>
                         <h2 style={styles.errorTitle}>Произошла ошибка при загрузке фильмов</h2>
