@@ -1,3 +1,4 @@
+![Image alt](https://github.com/KoroLev2512/ITMO-kino/blob/main/public/icons/logo_horizontal.webp)
 # ITMO-Kino
 
 A cinema booking application built with Next.js, TypeScript, and Prisma. This application allows users to browse movies, view sessions, and make seat reservations.
@@ -108,3 +109,17 @@ To access the admin panel:
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Status
+
+Today project in progress, client version via link https://itmokino.ru
+Work is underway on the admin panel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!

@@ -3,15 +3,14 @@ import { useRouter } from "next/router";
 import { Text } from "@/shared/ui/Text";
 import Link from "next/link";
 import { SessionTime } from "@/widgets/sessionTime";
-// import { InfoTable } from "@/widgets/infoTable";
-// import { helpers } from "@/shared/utils/helpers";
-import styles from './movie.styles.module.scss';
 import { Session } from "@/entities/movie/types";
 import { getMovie, getSessions } from "@/lib/api";
 import { Header } from "@/widgets/header";
 import Loader from "@/shared/loader";
+import Image from "next/image";
 
-// Define a more complete Movie type based on our API response
+import styles from './movie.styles.module.scss';
+
 interface MovieResponse {
     id: number;
     image: string;
@@ -118,7 +117,7 @@ const MoviePage = () => {
                     <div className={styles.leftColumn}>
                         <div className={styles.image}>
                             {movie.image ? (
-                                <img
+                                <Image
                                     src={movie.image}
                                     alt={movie.title}
                                 />
