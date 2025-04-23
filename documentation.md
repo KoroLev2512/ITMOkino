@@ -7,6 +7,7 @@
 -   [`secret.yaml`](#-secretyaml)
 -   [`postgres-deployment.yaml`](#-postgres-deploymentyaml)
 -   [`cinema-app.yaml`](#-cinema-appyaml)
+- [Основные команды](#основным-команды)
 
 ## Виртуальные машины
 Существует 2 виртуальных машины (в дальнейшем ВМ), к которым есть доступ. 1-ая ВМ находится вне кластера. Через неё происходит управление кластером через утилиту `kubectl`, она связана с кластером в `yandex cloud`. Вторая ВМ - единственный рабочий (воркер) узел кластера (на мастер ноде (`control plane`) никакие сущности не работают). 
@@ -14,6 +15,8 @@
 
 
 ## Манифесты
+
+Все находятся по путь `/home/efim/itmokino-app/k8s`
 
 ### `namespace.yaml`
 Создаёт изолированное пространство `cinema` в Kubernetes кластере. Все объекты (Pods, Services, Secrets и т.д.) будут размещены внутри этого namespace.
@@ -246,4 +249,35 @@ spec:
     - name: busybox
       image: busybox
       command: ["sh", "-c", "while true; do wget -q -O- http://cinema-app:80; done"]
+```
+
+## Основные команды
+Получить все сущности в пространстве имён `cinema`
+```sh
+kubectl get all -n cinema
+```
+
+Получить все поды в пространстве имён `cinema`
+```sh
+kubectl get pods -n cinema
+```
+
+Получить hpa в пространстве имён `cinema`
+```sh
+kubectl get hpa -n cinema
+```
+
+### Запуск тестовой нагрузки
+```sh
+kubectl apply -f load-test.yaml
+```
+
+Отслеживание автоскейлинга
+```sh
+kubectl describe hpa cinema-app-hpa -n cinema
+```
+
+Удаление пода нагрузки
+```sh
+kubectl delete pod load-generator -n cinema
 ```
