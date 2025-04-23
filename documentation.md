@@ -3,8 +3,8 @@
 ## Содержание
 - [Виртуальные машины](#виртуальные-машины)
 - [Манифесты](#манифесты)
--   [`namespace.yaml`](#namespace.yaml)
--   [`secret.yaml`](#secret.yaml)
+-   [`namespace.yaml`](#-namespaceyaml)
+-   [`secret.yaml`](#-secretyaml)
 -   [`postgres-deployment.yaml`](#-postgres-deploymentyaml)
 -   [`cinema-app.yaml`](#-cinema-appyaml)
 
