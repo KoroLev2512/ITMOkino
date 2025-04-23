@@ -5,8 +5,8 @@
 - [Манифесты](#манифесты)
 -   [`namespace.yaml`](#namespace.yaml)
 -   [`secret.yaml`](#secret.yaml)
--   [`postgres-deployment.yaml`](#postgres-deployment.yaml)
--   [`cinema-app.yaml`](#cinema-app.yaml)
+-   [`postgres-deployment.yaml`](#-postgres-deploymentyaml)
+-   [`cinema-app.yaml`](#-cinema-appyaml)
 
 ## Виртуальные машины
 Существует 2 виртуальных машины (в дальнейшем ВМ), к которым есть доступ. 1-ая ВМ находится вне кластера. Через неё происходит управление кластером через утилиту `kubectl`, она связана с кластером в `yandex cloud`. Вторая ВМ - единственный рабочий (воркер) узел кластера (на мастер ноде (`control plane`) никакие сущности не работают). 
