@@ -20,11 +20,9 @@ const LoginPage = () => {
     try {
       const response = await login({ username, password });
       
-      // Store token in localStorage
       localStorage.setItem('auth_token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
       
-      // Redirect based on user role
       if (response.user.isAdmin) {
         router.push('/admin');
       } else {

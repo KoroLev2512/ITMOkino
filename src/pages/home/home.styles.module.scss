@@ -83,6 +83,41 @@
   font-size: 16px;
 }
 
+.errorContainer {
+  height: 100dvh;
+  margin: auto;
+  padding: 20px;
+}
+
+.errorContent {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.errorTitle {
+  font-family: "NauryzRedKeds", sans-serif;
+  font-size: 24px;
+  color: #d32f2f;
+  margin-bottom: 10px;
+}
+
+.errorText {
+  font-family: "NauryzRedKeds", sans-serif;
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.retryButton {
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
 @media (max-width: 1600px) {
   .wrapper {
     background-size: auto;

@@ -1,5 +1,5 @@
-@import "@/app/styles/colors.scss";
-@import "@/app/styles/mixins.scss";
+@use "@/app/styles/colors" as colors;
+@use "@/app/styles/mixins" as mixins;
 
 .button {
   display: flex;
@@ -11,7 +11,7 @@
   outline: none;
 
   svg:hover {
-    fill: $button-color;
+    fill: calc(var(--button-color));
   }
 
   svg {
@@ -19,16 +19,13 @@
   }
 }
 
-.blankButton {
-}
-
 .transparentButton {
   width:120px;
   padding: 8px 35px;
   border-radius: 15px;
   background-color: transparent;
-  @include paragraph-2;
-  color: $gray-color;
+  @include mixins.paragraph-2;
+  color: colors.$gray-color;
   border: 1px solid var(--gray-color);
 }
 
@@ -36,12 +33,12 @@
   padding: 9px 35px;
   border-radius: 15px;
   background-color: var(--button-color);
-  @include paragraph-2;
-  color: $white-color;
+  @include mixins.paragraph-2;
+  color: colors.$white-color;
 
   &:hover {
     background-color: var(--button-color);
-    color: $white-color;
+    color: colors.$white-color;
   }
 }
 
@@ -49,13 +46,13 @@
   margin:0 2px 0 2px;
   padding: 8px 24px;
   border-radius: 15px;
-  background-color: $primary-background-color;
-  @include paragraph-2;
-  color: $black-color;
+  background-color: colors.$primary-background-color;
+  @include mixins.paragraph-2;
+  color: colors.$black-color;
 
   &:hover {
-    background-color: $button-color;
-    color: $white-color;
+    background-color: colors.$button-color;
+    color: colors.$white-color;
   }
 }
 
@@ -108,8 +105,8 @@ $offset: 6px;
     display: inline-block;
     position: relative;
     z-index: 2;
-    top: $offset / 2;
-    left:  $offset / 2;
+    top: calc(#{$offset} / 2);
+    left: calc(#{$offset} / 2);
     width: $height - $offset;
     height: $height - $offset;
     background-color: $light-toggle;
@@ -118,47 +115,48 @@ $offset: 6px;
     transition-property: transform, top, left;
     transition-duration: $time;
     transform: rotate(-90deg);
+    transition: opacity calc(#{$time} / 4);
 
     .glare {
       position: absolute;
-      width: $height / 2.5;
-      height: $height / 2.5;
-      border: solid ($height / 14) $glare;
+      width: calc(#{$height} / 2.5);
+      height: calc(#{$height} / 2.5);
+      border: solid calc(#{$height} / 14) $glare;
       border-color: transparent transparent $glare transparent;
       border-radius: 0 0 200px 200px;
       transform: rotate(220deg);
       top: 15%;
       left: 15%;
       opacity: 1;
-      transition: opacity $time / 4;
+      transition: opacity calc(#{$time} / 4);
     }
 
     .dot {
       position: absolute;
       background-color: $crater;
       opacity: 0;
-      transition: opacity $time / 4;
+      transition: opacity calc(#{$time} / 4);
       border-radius: 100%;
 
       &:nth-child(1) {
         top: 30%;
         left: 25%;
-        width: $height / 7;
-        height: $height / 7;
+        width: calc(#{$height} / 7);
+        height: calc(#{$height} / 7);
       }
 
       &:nth-child(2) {
         top: 60%;
         left: 50%;
-        width: $height / 6;
-        height: $height / 6;
+        width: calc(#{$height} / 6);
+        height: calc(#{$height} / 6);
       }
 
       &:nth-child(4) {
         top: 20%;
         right: 20%;
-        width: $height / 5;
-        height: $height / 5;
+        width: calc(#{$height} / 5);
+        height: calc(#{$height} / 5);
       }
     }
   }
@@ -166,12 +164,12 @@ $offset: 6px;
   .toggleRay {
     pointer-events: none;
     opacity: 1;
-    transition: opacity $time / 4;
-    transition-delay: $time / 4;
+    transition: opacity calc(#{$time} / 4);
+    transition-delay: calc(#{$time} / 4);
   }
 
   .ray {
-    width: $height / 4;
+    width: calc(#{$height} / 4);
     height: 2px;
     position: absolute;
     background: $light-toggle;
@@ -180,19 +178,19 @@ $offset: 6px;
     z-index: 1;
 
     &:nth-child(1) {
-      top: $height / 2 - ($offset / 4);
+      top: calc(#{$height} / 2 - #{$offset} / 4);
       left: $height + 1;
     }
 
     &:nth-child(2) {
-      width: $height / 5;
+      width: calc(#{$height} / 5);
       top: calc(20% - 1px);
       transform: rotate(-20deg);
       left: $height;
     }
 
     &:nth-child(3) {
-      width: $height / 5;
+      width: calc(#{$height} / 5);
       top: calc(80% - 2px);
       transform: rotate(20deg);
     }

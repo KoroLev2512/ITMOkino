@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {NextPage} from "next";
-import {getMovies} from "@/lib/api";
-import {Movie} from "@/entities/movie";
+import React, { useState, useEffect } from "react";
+import { NextPage } from "next";
+import { getMovies } from "@/lib/api";
+import { Movie } from "@/entities/movie";
 import HomePage from "@/pages/home/home";
-import {Header} from "@/widgets/header";
+import { Header } from "@/widgets/header";
 import Loader from "@/shared/loader";
 
 const MainPage: NextPage = () => {
@@ -32,41 +32,13 @@ const MainPage: NextPage = () => {
     if (loading) {
         return (
             <>
-                <Header title="ITMO KINO"/>
-                <Loader/>
+                <Header title="ITMO KINO" />
+                <Loader />
             </>
         );
     }
 
-    if (error || movies.length === 0) {
-        return (
-            <div>
-                <Header title="ITMO KINO"/>
-                <div style={{maxWidth: "1200px", height: "100gvh", margin: "auto", padding: "20px"}}>
-                    <div style={{marginTop: "50px", textAlign: "center"}}>
-                        <h2 style={{fontStyle: "Nay", color: "#d32f2f", marginBottom: "10px"}}>Произошла ошибка при загрузке фильмов</h2>
-                        <p style={{color: "#666", marginBottom: "20px"}}>{error || "Список фильмов пуст"}</p>
-                        <button
-                            onClick={() => window.location.reload()}
-                            style={{
-                                padding: "10px 20px",
-                                backgroundColor: "#2196f3",
-                                color: "white",
-                                border: "none",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                            }}
-                        >
-                            Попробовать снова
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    return <HomePage movies={movies}/>;
+    return <HomePage movies={movies} error={error} />;
 };
 
 export default MainPage;
