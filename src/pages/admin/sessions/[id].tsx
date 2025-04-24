@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getMovie, getSessions, createSession, deleteSession } from '@/lib/api';
+import { getMovie, getSessions, createSession, deleteSession } from '@/shared/lib/api';
 import styles from '../admin.module.scss';
 
 interface Session {

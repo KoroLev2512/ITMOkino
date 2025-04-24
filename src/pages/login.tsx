@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { login } from '@/lib/api';
+import { login } from '@/shared/lib/api';
 import { Text } from '@/shared/ui/Text';
 import styles from './auth.module.scss';
 

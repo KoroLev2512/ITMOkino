@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
-import prisma from '../../../lib/prisma';
-import { generateToken } from '../../../lib/auth';
+import prisma from '@/shared/lib/prisma';
+import { generateToken } from '@/shared/lib/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {

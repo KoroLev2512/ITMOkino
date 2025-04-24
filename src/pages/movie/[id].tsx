@@ -4,7 +4,7 @@ import { Text } from "@/shared/ui/Text";
 import Link from "next/link";
 import { SessionTime } from "@/widgets/sessionTime";
 import { Session } from "@/entities/movie/types";
-import { getMovie, getSessions } from "@/lib/api";
+import { getMovie, getSessions } from "@/shared/lib/api";
 import { Header } from "@/widgets/header";
 import Loader from "@/shared/loader";
 import Image from "next/image";

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../lib/prisma';
-import { withAdminAuth, AuthenticatedRequest } from '../../../lib/auth';
+import prisma from '@/shared/lib/prisma';
+import { withAdminAuth, AuthenticatedRequest } from '@/shared/lib/auth';
 
 async function handler(req: NextApiRequest | AuthenticatedRequest, res: NextApiResponse) {
   // GET - Admin-only route to get tickets (optionally filtered by sessionId)

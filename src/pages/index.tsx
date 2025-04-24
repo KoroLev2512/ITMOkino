@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NextPage } from "next";
-import { getMovies } from "@/lib/api";
+import { getMovies } from "@/shared/lib/api";
 import { Movie } from "@/entities/movie";
 import HomePage from "@/pages/home/home";
 import { Header } from "@/widgets/header";

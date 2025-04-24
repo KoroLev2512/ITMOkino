@@ -1,15 +1,23 @@
 import { create } from 'zustand';
+import {devtools} from "zustand/middleware";
+import {immer} from "zustand/middleware/immer";
+import {AppState} from "../types/dto/app.dto";
+import {setCookie} from "nookies";
+// import {isUndefined} from "lodash";
 
-interface AppState {
-  isDarkMode: boolean;
-  profilePageIsClose: boolean;
-  toggleDarkMode: (value: boolean) => void;
-  toggleProfilePage: (value: boolean) => void;
-}
-
-export const useAppStore = create<AppState>((set) => ({
-  isDarkMode: false,
-  profilePageIsClose: true,
-  toggleDarkMode: (value: boolean) => set({ isDarkMode: value }),
-  toggleProfilePage: (value: boolean) => set({ profilePageIsClose: value }),
-})); 
+export const useAppStore = create<AppState>()(devtools(immer((set) => {
+  return ({
+    isDarkMode: true,
+    toggleDarkMode: (value: boolean) => {
+      setCookie(null, "theme", value ? "dark" : "light", {
+        path: "/"
+      });
+      set({ isDarkMode: value });
+    },
+    // toggleMenuPage: (value) => {
+    // 	set((state) => {
+    // 		return ({menuPageIsOpen: !isUndefined(value) ? value :  !state.menuPageIsOpen});
+    // 	});
+    // },
+  });
+})));

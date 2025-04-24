@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { createMovie } from '@/lib/api';
+import { createMovie } from '@/shared/lib/api';
 import styles from '../admin.module.scss';
 
 // Match the interface from edit page

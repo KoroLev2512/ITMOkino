@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import apiHandler from './index';
 import { PrismaClient } from '@prisma/client';
-import { AuthenticatedRequest } from '../../../lib/auth';
+import { AuthenticatedRequest } from '@/shared/lib/auth';
 
 // Mock prisma
-jest.mock('../../../lib/prisma', () => ({
+jest.mock('@/shared/lib/prisma', () => ({
   __esModule: true,
   default: {
     movie: {
@@ -15,7 +15,7 @@ jest.mock('../../../lib/prisma', () => ({
 }));
 
 // Mock auth middleware
-jest.mock('../../../lib/auth', () => ({
+jest.mock('@/shared/lib/auth', () => ({
   withAdminAuth: jest.fn((handler) => handler),
   AuthenticatedRequest: {},
 }));
@@ -73,7 +73,7 @@ describe('Movies API', () => {
       req.method = 'GET';
       
       // Mock prisma response
-      const prisma = require('../../../lib/prisma').default;
+      const prisma = require('@/shared/lib/prisma').default;
       prisma.movie.findMany.mockResolvedValue(mockMovies);
       
       // Call the handler
@@ -92,7 +92,7 @@ describe('Movies API', () => {
       req.method = 'GET';
       
       // Mock prisma error
-      const prisma = require('../../../lib/prisma').default;
+      const prisma = require('@/shared/lib/prisma').default;
       prisma.movie.findMany.mockRejectedValue(new Error('Database error'));
       
       // Call the handler
@@ -137,7 +137,7 @@ describe('Movies API', () => {
       };
       
       // Mock prisma response
-      const prisma = require('../../../lib/prisma').default;
+      const prisma = require('@/shared/lib/prisma').default;
       prisma.movie.create.mockResolvedValue(createdMovie);
       
       // Call the handler
@@ -179,7 +179,7 @@ describe('Movies API', () => {
       // Assertions
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ message: 'All fields are required' });
-      expect(require('../../../lib/prisma').default.movie.create).not.toHaveBeenCalled();
+      expect(require('@/shared/lib/prisma').default.movie.create).not.toHaveBeenCalled();
     });
     
     it('should handle errors when creating a movie', async () => {
@@ -202,7 +202,7 @@ describe('Movies API', () => {
       };
       
       // Mock prisma error
-      const prisma = require('../../../lib/prisma').default;
+      const prisma = require('@/shared/lib/prisma').default;
       prisma.movie.create.mockRejectedValue(new Error('Database error'));
       
       // Call the handler

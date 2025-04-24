@@ -1,10 +1,10 @@
 import { createMocks } from 'node-mocks-http';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import ticketsHandler from './index';
-import { AuthenticatedRequest } from '../../../lib/auth';
+import { AuthenticatedRequest } from '@/shared/lib/auth';
 
 // Mock the prisma client
-jest.mock('../../../lib/prisma', () => {
+jest.mock('@/shared/lib/prisma', () => {
   return {
     __esModule: true,
     default: {
@@ -19,10 +19,10 @@ jest.mock('../../../lib/prisma', () => {
 });
 
 // Import prisma after mocking
-import prisma from '../../../lib/prisma';
+import prisma from '@/shared/lib/prisma';
 
 // Mock the auth middleware
-jest.mock('../../../lib/auth', () => ({
+jest.mock('@/shared/lib/auth', () => ({
   withAdminAuth: jest.fn((handler) => async (req: AuthenticatedRequest, res: NextApiResponse) => {
     // Mock the admin authentication
     req.user = { isAdmin: true, id: 1, username: 'admin' };

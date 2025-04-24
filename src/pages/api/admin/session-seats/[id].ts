@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../../lib/prisma';
-import { withAdminAuth, AuthenticatedRequest } from '../../../../lib/auth';
+import prisma from '@/shared/lib/prisma';
+import { withAdminAuth, AuthenticatedRequest } from '@/shared/lib/auth';
 
 // This is an admin-only endpoint to get detailed seat information including customer data
 async function handler(req: AuthenticatedRequest, res: NextApiResponse) {

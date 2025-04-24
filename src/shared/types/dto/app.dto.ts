@@ -1,12 +1,8 @@
 export type AppState = {
-    backendIsAvailable: boolean | null;
-    isLoading: boolean;
-    profilePageIsClose: boolean;
-    menuPageIsOpen: boolean;
-    notificationsVisible: boolean;
+    // backendIsAvailable: boolean | null;
+    // isLoading: boolean;
+    // menuPageIsOpen: boolean;
     isDarkMode: boolean;
-    toggleProfilePage: (value?:boolean) => void;
-    toggleMenuPage: (value?: boolean) => void;
-    toggleNotifications: () => void;
+    // toggleMenuPage: (value?: boolean) => void;
     toggleDarkMode: (value: boolean) => void;
 }

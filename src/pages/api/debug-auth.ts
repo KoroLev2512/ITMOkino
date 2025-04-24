@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
-import { verifyToken } from '../../lib/auth';
+import { verifyToken } from '@/shared/lib/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

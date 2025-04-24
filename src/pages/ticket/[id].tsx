@@ -8,7 +8,7 @@ import styles from './tickets.styles.module.scss';
 import {OrderState} from "@/shared/store/slices";
 import { clearOrder } from '@/shared/store/slices/orderSlice';
 import { useRouter } from 'next/router';
-import { reserveSeat } from '@/lib/api';
+import { reserveSeat } from '@/shared/lib/api';
 import axios from 'axios';
 
 interface Seat {

@@ -1,27 +1,9 @@
-// import React from "react";
-// import type { AppProps } from "next/app";
-// import AppWrapper from "@/features/wrappers/AppWrapper";
-// import {ServerGuard} from "@/app/guards/ServerGuard";
-// import "@/app/styles/globals.scss";
-//
-// const App = ({ Component, pageProps }: AppProps) => {
-// 	return (
-// 		<ServerGuard>
-// 			<AppWrapper>
-// 				<Component {...pageProps} />
-// 			</AppWrapper>
-// 		</ServerGuard>
-// 	);
-// };
-//
-// export default App;
-
 import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "@/shared/store/store";
 import { useRouter } from "next/router";
-import { useAppStore } from "@/lib/appStore";
+import { useAppStore } from "@/shared/store/appStore";
 import "@/app/styles/globals.scss";
 
 const AuthStateHandler = ({ children }: { children: React.ReactNode }) => {
@@ -81,16 +63,26 @@ const AuthStateHandler = ({ children }: { children: React.ReactNode }) => {
 };
 
 const ThemeManager = () => {
-	const isDarkMode = useAppStore(state => state.isDarkMode);
+	const isDarkMode = useAppStore((state) => state.isDarkMode);
+	const toggleDarkMode = useAppStore((state) => state.toggleDarkMode);
 
 	useEffect(() => {
 		const root = document.documentElement;
 		root.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+		localStorage.setItem("theme", isDarkMode ? "dark" : "light");
 	}, [isDarkMode]);
+
+	useEffect(() => {
+		const savedTheme = localStorage.getItem("theme");
+		if (savedTheme) {
+			toggleDarkMode(savedTheme === "dark");
+		} else {
+			toggleDarkMode(true); // Устанавливаем тёмную тему по умолчанию
+		}
+	}, [toggleDarkMode]);
 
 	return null;
 };
-
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
@@ -104,3 +96,21 @@ const App = ({ Component, pageProps }: AppProps) => {
 };
 
 export default App;
+
+// import React from "react";
+// import type { AppProps } from "next/app";
+// import AppWrapper from "@/features/wrappers/AppWrapper";
+// import {ServerGuard} from "@/app/guards/ServerGuard";
+// import "@/app/styles/globals.scss";
+//
+// const App = ({ Component, pageProps }: AppProps) => {
+// 	return (
+// 		<ServerGuard>
+// 			<AppWrapper>
+// 				<Component {...pageProps} />
+// 			</AppWrapper>
+// 		</ServerGuard>
+// 	);
+// };
+//
+// export default App;

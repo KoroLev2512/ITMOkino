@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getMovies, deleteMovie } from '@/lib/api';
+import { getMovies, deleteMovie } from '@/shared/lib/api';
 import { Movie } from '@/entities/movie';
 import Link from 'next/link';
 import styles from './admin.module.scss';

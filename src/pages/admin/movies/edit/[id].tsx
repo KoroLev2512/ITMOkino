@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { getMovie, updateMovie } from '@/lib/api';
+import { getMovie, updateMovie } from '@/shared/lib/api';
 import styles from '../../admin.module.scss';
 
 // Movie type based on API response

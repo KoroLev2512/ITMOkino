@@ -9,14 +9,14 @@ import {PageWrapper} from "@/features/wrappers/PageWrapper";
 
 const AppWrapper = (props: Layout) => {
     const {children} = props;
-    const [isDarkMode, toggleDarkMode, toggleProfilePage] = useAppStore(state => [state.isDarkMode, state.toggleDarkMode, state.toggleProfilePage, state.profilePageIsClose]);
+    const [isDarkMode, toggleDarkMode] = useAppStore(state => [state.isDarkMode, state.toggleDarkMode]);
     const defaultTheme = parseCookies().theme || "light";
 
-    useEffect(() => {
-        if (window.innerWidth <= 720) {
-            toggleProfilePage(false);
-        }
-    }, [toggleProfilePage]);
+    // useEffect(() => {
+    //     if (window.innerWidth <= 720) {
+    //         toggleProfilePage(false);
+    //     }
+    // }, [toggleProfilePage]);
 
     useMountEffect(() => {
         if (defaultTheme) {

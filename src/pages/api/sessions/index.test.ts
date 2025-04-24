@@ -1,11 +1,11 @@
 import { createMocks } from 'node-mocks-http';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../lib/prisma';
+import prisma from '@/shared/lib/prisma';
 import sessionHandler from './index';
-import * as auth from '../../../lib/auth';
-import { AuthenticatedRequest } from '../../../lib/auth';
+import * as auth from '@/shared/lib/auth';
+import { AuthenticatedRequest } from '@/shared/lib/auth';
 
-jest.mock('../../../lib/prisma', () => ({
+jest.mock('@/shared/lib/prisma', () => ({
   __esModule: true,
   default: {
     session: {
@@ -22,7 +22,7 @@ jest.mock('../../../lib/prisma', () => ({
   },
 }));
 
-jest.mock('../../../lib/auth', () => ({
+jest.mock('@/shared/lib/auth', () => ({
   withAdminAuth: jest.fn((handler) => handler),
   verifyToken: jest.fn(),
   AuthenticatedRequest: {},

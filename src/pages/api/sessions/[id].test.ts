@@ -1,11 +1,11 @@
 import { createMocks } from 'node-mocks-http';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '../../../lib/prisma';
+import prisma from '@/shared/lib/prisma';
 import sessionDetailHandler from './[id]';
-import * as auth from '../../../lib/auth';
-import { AuthenticatedRequest } from '../../../lib/auth';
+import * as auth from '@/shared/lib/auth';
+import { AuthenticatedRequest } from '@/shared/lib/auth';
 
-jest.mock('../../../lib/prisma', () => ({
+jest.mock('@/shared/lib/prisma', () => ({
   session: {
     findUnique: jest.fn(),
     update: jest.fn(),
@@ -23,7 +23,7 @@ jest.mock('../../../lib/prisma', () => ({
   $queryRaw: jest.fn(),
 }));
 
-jest.mock('../../../lib/auth', () => ({
+jest.mock('@/shared/lib/auth', () => ({
   withAdminAuth: jest.fn((handler) => (req: AuthenticatedRequest, res: NextApiResponse) => {
     // Mock the admin authentication
     req.user = { isAdmin: true, id: 1, username: 'admin' };
