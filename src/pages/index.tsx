@@ -42,9 +42,9 @@ const MainPage: NextPage = () => {
         return (
             <div>
                 <Header title="ITMO KINO"/>
-                <div style={{maxWidth: "1200px", margin: "auto", padding: "20px"}}>
+                <div style={{maxWidth: "1200px", height: "100gvh", margin: "auto", padding: "20px"}}>
                     <div style={{marginTop: "50px", textAlign: "center"}}>
-                        <h2 style={{color: "#d32f2f", marginBottom: "10px"}}>Произошла ошибка при загрузке фильмов</h2>
+                        <h2 style={{fontStyle: "Nay", color: "#d32f2f", marginBottom: "10px"}}>Произошла ошибка при загрузке фильмов</h2>
                         <p style={{color: "#666", marginBottom: "20px"}}>{error || "Список фильмов пуст"}</p>
                         <button
                             onClick={() => window.location.reload()}
