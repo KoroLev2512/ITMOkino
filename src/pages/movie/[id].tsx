@@ -120,6 +120,8 @@ const MoviePage = () => {
                                 <Image
                                     src={movie.image}
                                     alt={movie.title}
+                                    width={200}
+                                    height={300}
                                 />
                             ) : (
                                 <div className={styles.noImage}>Нет изображения</div>

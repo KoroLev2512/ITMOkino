@@ -5,6 +5,7 @@
   min-height: 100vh;
   padding: 20px;
   background-color: var(--primary-background-color);
+  border: 1px solid var(--secondary-background-color);
 }
 
 .authCard {
@@ -20,12 +21,15 @@
   font-size: 24px;
   margin-bottom: 24px;
   color: var(--black-color);
+  font-family: "Muller Next Wide Trial ExtraBold", sans-serif;
 }
 
 .authForm {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  font-family: "Muller Next Wide Trial Regular", sans-serif;
+  user-select: none;
 }
 
 .formGroup {
@@ -41,10 +45,13 @@
 
 .authInput {
   padding: 12px 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--white-color);
   border-radius: 6px;
   font-size: 16px;
   transition: border-color 0.2s;
+  font-family: "Muller Next Wide Trial Regular", sans-serif;
+  color: var(--black-color);
+  background-color: var(--primary-background-color);
   
   &:focus {
     outline: none;
@@ -56,13 +63,14 @@
   margin-top: 10px;
   padding: 14px;
   background-color: var(--button-color);
-  color: var(--white-color);
+  color: white;
   border: none;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-family: "Muller Next Wide Trial Regular", sans-serif;
   
   &:hover {
     background-color: #0060df;
@@ -88,9 +96,11 @@
   text-align: center;
   color: #666;
   font-size: 14px;
+  font-family: "Muller Next Wide Trial Regular", sans-serif;
   
   p {
     margin-bottom: 10px;
+    font-family: "Muller Next Wide Trial Regular", sans-serif;
   }
 }
 

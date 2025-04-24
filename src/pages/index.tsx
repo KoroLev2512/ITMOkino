@@ -20,7 +20,7 @@ const MainPage: NextPage = () => {
                 setError("");
             } catch (err) {
                 console.error("Error fetching movies:", err);
-                setError("Failed to load movies");
+                setError("Если вы зашли через vercel, то попробуйте развернуть код в локальной среде");
             } finally {
                 setLoading(false);
             }
@@ -32,7 +32,7 @@ const MainPage: NextPage = () => {
     if (loading) {
         return (
             <>
-                <Header title="ITMO"/>
+                <Header title="ITMO KINO"/>
                 <Loader/>
             </>
         );

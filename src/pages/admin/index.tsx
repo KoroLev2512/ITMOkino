@@ -39,7 +39,7 @@ const AdminDashboard = () => {
       const data = await getMovies();
       setMovies(data);
     } catch (err) {
-      setError('Failed to load movies');
+      setError('Если вы зашли через vercel, то попробуйте развернуть код в локальной среде');
       console.error(err);
     } finally {
       setLoading(false);

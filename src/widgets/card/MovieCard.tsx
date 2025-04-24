@@ -4,6 +4,7 @@ import {Text} from "@/shared/ui/Text";
 import Link from "next/link";
 import {IMovieCard} from "@/entities/movie";
 import styles from "./styles.module.scss";
+import Image from "next/image";
 
 // import {useDispatch} from "react-redux";
 // import {setMovieTitle} from "@/store/slices/moviesSlice";
@@ -24,7 +25,7 @@ export const MovieCard = ({data}: MovieCardProps) => {
         <Link href={`/movie/${data.id}`} className={classNames(styles.card, data.className)}>
             <div className={styles.content}>
                 <div className={styles.image}>
-                    <img src={data.image} alt={data.title}/>
+                    <Image src={data.image} alt={data.title}/>
                 </div>
                 <Text className={styles.title}>{data.title}</Text>
                 <Text className={styles.description}>{data.description}</Text>
